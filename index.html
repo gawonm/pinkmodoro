@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<title>핑크모도로</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFkUlEQVR4nO3dMY4TWRSFYTdiBSSVsgKERNBS57MNlkDIIiZkCWyDvCWCkRArqPQlI0hJGNVoSnIz7rKpLtc7557/SwhaCKt9/7qv3HZz8+P7t58HINSz3g8A6IkAEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEO157wdQ3f2fH5709+/ev9vsseD/bvj16BqD/rsIYxsEcOWBf/nm9eLXP794tfj14dPHi/4dgliHADYa+nODvjaANWEQw+UIYOXQrx34rQK4NAhiWEYAvzH4Ww39NQI4FwMhnEYAZwb/GkN/7QCWYiCEhwig0+DvFcCMEE6LD6DX4O8dwIwQHooNoPfg9wpgRgihAagMfu8AZkP4PUJUAMfD33vwVQI4FUJSBDFvhlMcfiXtj7fd3tbRU/kNoD74KhsgdRuU3gDqw6+qBW2DsgEw/E/TQiIoeQSanzCHq77iEeixI1HF41CpAByv+g4BVL4vKHMEchx+J63okahEAAz/PlrBCOwDYPj31YpFYB0Aw99HKxSBdQAzzvx9I3BmG4DTS53VI7g33gKWATD8Opp5BHYBMPx6mnEEVgE4foPT3Js9R1YBzDj362mmN8U2AXD00dcMj0IWATD8PppZBPIBuHwj4fncyQcw49zvoxndD0gHwNHHVzM5CkkHAMQGwNXfXzPYArIBALEBcPWvo4lvAckAgNgAuPrX04S3gFwAQGwAXP3raqJbQCoAIDYArv71NcEtIBMA0AMBIJpEABx/cjSxY5BEAEAvBIBo3QPg+JOnCR2DugcA9EQAiEYAiNY1AM7/uZrIfQAbANEIANEIANEIANEIANG6BcArQGgCrwSxARCNABCNABCNABCNABCNABCNABCNABCNADq7/ftr74cQjQAEEEE/BCCCCPogALEICGFfBCCICPZDAKKIYB8EIIwICgdw9/7dv3+Of33p9RAsVI5g+PTxwSz0wAYwwM3x9RCAkcrboBcCMEME2yIAQ0SwHQIwRQTbuPnx/dvPQ0f8doin+/zi1cHNIPAK0IQNUADbYD0CKIII1iGAQojAMAB+IpwXwSBy/pcIAJkRqCCAonj7hFEAHINytsEgdPyRCQBZESghgBBEIB4Ax6D6EQxixx+pALAPbo6FA2AL1N0Gg+DVXy4AZB2JFMgFwBaoF8EgevWXDAD7uw3eBN0/D/AYPidQ47MFg/DVf8IGQPQ2kA2AewH/CAbxq790AOjrNmQTSAfAFvCNYDC4+ssHcIxfoejzk+Phv+F3IB+A+hUkxe2KbeDw3MkHMOEo5BPBYHL0sQpgQgT6EQxmw28VwDHuB/QiGIzO/bYBOF1ZUm+O78yeI9m3QizhbRKaG/nObPjtNsCM+wEdo/Hw2wYwIYL+RvPhtw7gGDfFfM8jAzi+8hDBfsaj/9jQ+epvH8CECPY1Fhr+EgFMiGAfY7HhLxPAhAiuayw4/LY/BziHnxNsayzwak9UAMcRTF6+ed31sbgai171Sx6BfsWR6GnGgOEvHcCECNYZQ4a/9BHoVxyJzhuDBj9iAxxjGywbA4c/agOc2gST9Bvk8Wjw04Y/MoBZegjpg39IDyA1BAb/ofgAUkJg8E8jgOIhMPjLCODCEJxiOPXW8NQz/jkEsCIExRge+zwEg7+MADaIoUcQSx8AYugvRwBXiGHLMC79pBtDvw4B7BzEVhj4bRCAeBgM+nURAKLFvBkOOIUAEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AEI0AcEj2D/V9qOEFrf6YAAAAAElFTkSuQmCC">
+<meta name="theme-color" id="themeColorMeta" content="#e0aeb2">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="핑크모도로">
+<style>
+  :root {
+    --font-display: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Display",
+      "Apple SD Gothic Neo", "Segoe UI Variable Display", "Segoe UI", "Malgun Gothic", sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo",
+      "Segoe UI Variable Text", "Segoe UI", "Malgun Gothic", sans-serif;
+
+    /* Rose Quartz + Serenity — a single soft color story, not separate accent hues.
+       Focus reads in rose, break reads in serenity, long break in the two blended. */
+    --paper: #faf1f0;
+    --paper-2: #eef2f8;
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --ink: #4a4148;
+    --ink-soft: #8d8590;
+    --ink-faint: #c7c0ca;
+    --line: #ece3e6;
+    --line-strong: #ddd0d6;
+    --shadow: rgba(120, 100, 120, 0.14);
+    /* the wedge is always a medium-light pastel in both themes, so text sitting
+       on it always wants dark ink — not the theme's normal (sometimes light) ink */
+    --wedge-ink: #6b2a46;
+
+    --c-focus: #e0aeb2;
+    --c-focus-strong: #c07b82;
+    --c-focus-tint: #f8e9e9;
+
+    --c-short: #a9c0e0;
+    --c-short-strong: #6e8fbe;
+    --c-short-tint: #ebf1fa;
+
+    --c-long: #c3b3ca;
+    --c-long-strong: #9b85a0;
+    --c-long-tint: #f2ecf3;
+
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #22202a;
+      --paper-2: #211f28;
+      --surface: #2b2832;
+      --surface-raised: #33303c;
+      --ink: #ece7ea;
+      --ink-soft: #b6aeb8;
+      --ink-faint: #766f7a;
+      --line: #3a3640;
+      --line-strong: #4a4550;
+      --shadow: rgba(0, 0, 0, 0.35);
+      --wedge-ink: #3f2030;
+
+      --c-focus: #d9a2a8;
+      --c-focus-strong: #e8bcc0;
+      --c-focus-tint: #3c2e33;
+
+      --c-short: #9cb6dd;
+      --c-short-strong: #bcd0ec;
+      --c-short-tint: #232c3a;
+
+      --c-long: #b6a3bd;
+      --c-long-strong: #cbbdd0;
+      --c-long-tint: #322a37;
+
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #22202a;
+    --paper-2: #211f28;
+    --surface: #2b2832;
+    --surface-raised: #33303c;
+    --ink: #ece7ea;
+    --ink-soft: #b6aeb8;
+    --ink-faint: #766f7a;
+    --line: #3a3640;
+    --line-strong: #4a4550;
+    --shadow: rgba(0, 0, 0, 0.35);
+    --wedge-ink: #3f2030;
+
+    --c-focus: #d9a2a8;
+    --c-focus-strong: #e8bcc0;
+    --c-focus-tint: #3c2e33;
+
+    --c-short: #9cb6dd;
+    --c-short-strong: #bcd0ec;
+    --c-short-tint: #232c3a;
+
+    --c-long: #b6a3bd;
+    --c-long-strong: #cbbdd0;
+    --c-long-tint: #322a37;
+
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { background: var(--paper); }
+
+  body {
+    background: linear-gradient(160deg, var(--paper), var(--paper-2));
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 32px 20px 64px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    --accent: var(--c-focus);
+    --accent-strong: var(--c-focus-strong);
+    --accent-tint: var(--c-focus-tint);
+  }
+
+  body[data-phase="short"] {
+    --accent: var(--c-short);
+    --accent-strong: var(--c-short-strong);
+    --accent-tint: var(--c-short-tint);
+  }
+
+  body[data-phase="long"] {
+    --accent: var(--c-long);
+    --accent-strong: var(--c-long-strong);
+    --accent-tint: var(--c-long-tint);
+  }
+
+
+  .app {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+  /* ---------- Topbar ---------- */
+  .topbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--c-focus-strong);
+    margin-bottom: 6px;
+  }
+
+  .brand h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .tagline {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .today-pill {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 16px;
+  }
+  .today-pill.celebrate {
+    animation: pill-celebrate 0.6s ease;
+  }
+  @keyframes pill-celebrate {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 var(--accent-tint); }
+    35% { transform: scale(1.12); box-shadow: 0 0 0 8px var(--accent-tint); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .today-pill-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+  }
+
+  .today-pill-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .icon-btn {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+  .icon-btn:hover { border-color: var(--line-strong); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ---------- Quick capture: parked thoughts ---------- */
+  .notes-anchor { position: relative; }
+
+  .notes-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--c-focus-strong);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  .notes-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: min(300px, 84vw);
+    max-height: 380px;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 16px 40px -16px var(--shadow);
+    padding: 16px;
+    z-index: 30;
+  }
+  .notes-popover[hidden] { display: none; }
+
+  .notes-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .notes-sub {
+    margin: 3px 0 12px;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  #notesForm input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--paper);
+  }
+  #notesForm input:focus {
+    outline: none;
+    border-color: var(--c-focus-strong);
+  }
+  #notesForm input::placeholder { color: var(--ink-faint); }
+
+  .notes-list {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .notes-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--paper);
+    border-radius: 12px;
+  }
+  .notes-row-text {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    color: var(--ink);
+    word-break: break-word;
+  }
+  .notes-row-remove {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--ink-faint);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .notes-row-remove:hover { color: var(--c-focus-strong); background: var(--accent-tint); }
+
+  .notes-empty {
+    margin: 12px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+  .icon-btn .moon { display: none; }
+  :root[data-theme="dark"] .icon-btn .sun,
+  :root:not([data-theme="light"]) .icon-btn .sun { display: none; }
+  :root[data-theme="dark"] .icon-btn .moon,
+  :root:not([data-theme="light"]) .icon-btn .moon { display: block; }
+  :root[data-theme="light"] .icon-btn .sun { display: block; }
+  :root[data-theme="light"] .icon-btn .moon { display: none; }
+
+  /* ---------- Layout ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  .stage {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 32px;
+    padding: 44px 28px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 16px 40px -20px var(--shadow);
+    overflow: hidden;
+  }
+
+  /* ---------- Status sticker ---------- */
+  .status-sticker {
+    position: relative;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--accent-strong);
+    background: var(--accent-tint);
+    border-radius: 999px;
+    padding: 7px 18px;
+    z-index: 1;
+  }
+
+  /* ---------- Dial ---------- */
+  .dial-wrap {
+    position: relative;
+    width: min(320px, 72vw);
+    height: min(320px, 72vw);
+    z-index: 1;
+  }
+
+  .dial { width: 100%; height: 100%; overflow: visible; touch-action: none; }
+
+  .tick { stroke: var(--line-strong); stroke-width: 1.5; opacity: 0.7; }
+  .tick.major { stroke: var(--ink-faint); stroke-width: 2.5; opacity: 0.9; }
+
+  /* the wedge is a deliberate "Time Timer" style disc: remaining time reads
+     as a shrinking pie slice, which is far easier to feel at a glance than a
+     thin ring or a digit alone (helps with time-blindness). */
+  .wedge-track {
+    fill: var(--line);
+  }
+
+  .wedge {
+    fill: var(--accent);
+    opacity: 0.85;
+  }
+
+  .wedge-rim {
+    fill: none;
+    stroke: var(--accent-strong);
+    stroke-width: 1.5;
+    opacity: 0.55;
+  }
+
+  .dial-wrap.ending-soon .wedge {
+    animation: wedge-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes wedge-pulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 0.55; }
+  }
+
+  .drag-hit {
+    fill: none;
+    stroke: transparent;
+    stroke-width: 34;
+    cursor: grab;
+  }
+  .drag-hit:active { cursor: grabbing; }
+  .drag-hit:focus-visible { outline: none; }
+  .dial:has(.drag-hit:focus-visible) .wedge-rim {
+    stroke-width: 5;
+  }
+
+  .dial-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+
+  .mode-pill {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--accent-strong);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    padding: 3px 14px;
+    border-radius: 999px;
+  }
+
+  .time {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(52px, 15vw, 72px);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    /* same pastel family as the wedge behind it, not a neutral ink — a soft
+       glow (not a hard outline) is what lifts it off a same-hued fill */
+    color: var(--accent-strong);
+    text-shadow: 0 0 18px var(--accent-tint), 0 0 6px var(--accent-tint), 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+
+  .task-input {
+    pointer-events: auto;
+    background: none;
+    border: none;
+    border-bottom: 1px dashed transparent;
+    text-align: center;
+    color: var(--wedge-ink);
+    font-size: 13px;
+    font-weight: 500;
+    width: 78%;
+    padding: 3px 2px;
+    font-family: inherit;
+  }
+  .task-input:hover { border-bottom-color: var(--wedge-ink); }
+  .task-input:focus {
+    outline: none;
+    border-bottom-color: var(--wedge-ink);
+    color: var(--wedge-ink);
+  }
+  .task-input::placeholder { color: var(--wedge-ink); opacity: 0.55; }
+
+  .dial-hint {
+    position: absolute;
+    bottom: -26px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-faint);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .dial-wrap:hover .dial-hint,
+  .dial-wrap.dragging .dial-hint { opacity: 1; }
+
+  /* ---------- Controls ---------- */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    z-index: 1;
+  }
+
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    border-radius: 16px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.12s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: #fffdf9;
+    min-width: 148px;
+    box-shadow: 0 10px 24px -10px var(--accent);
+  }
+
+  .btn-ghost {
+    background: var(--surface);
+    border-color: var(--line);
+    color: var(--ink-soft);
+  }
+  .btn-ghost:hover { border-color: var(--line-strong); color: var(--ink); }
+
+  .btn:focus-visible, .icon-btn:focus-visible, input:focus-visible,
+  .stepper button:focus-visible, .switch input:focus-visible + .switch-track,
+  .link-btn:focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 2px;
+  }
+
+  /* quick-start: the smallest possible first step when a full session feels
+     too big to begin — a single tap, no settings, no dial to drag */
+  .quick-start {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    padding: 2px;
+    margin-top: -10px;
+  }
+  .quick-start:hover { color: var(--ink-soft); }
+
+  /* ---------- Session track ---------- */
+  .session-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+  }
+  .session-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--line);
+    border: 1.5px solid var(--line-strong);
+    transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  }
+  .session-dot.filled {
+    background: var(--accent);
+    border-color: var(--accent-strong);
+    transform: scale(1.15);
+  }
+  .session-track-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-faint);
+    margin-left: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Panel ---------- */
+  .panel {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 32px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    box-shadow: 0 16px 40px -22px var(--shadow);
+  }
+
+  .panel h2 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 1; }
+
+  .field-group h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .row-label { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .row-sub { font-size: 11.5px; color: var(--ink-faint); margin-top: 1px; }
+
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .stepper button {
+    width: 28px;
+    height: 30px;
+    border: none;
+    background: var(--surface-raised);
+    color: var(--ink-soft);
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .stepper button:hover { background: var(--accent-tint); color: var(--accent-strong); }
+  .stepper output {
+    min-width: 34px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .switch { position: relative; flex-shrink: 0; }
+  .switch input {
+    position: absolute;
+    opacity: 0;
+    width: 40px;
+    height: 22px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .switch-track {
+    display: block;
+    width: 40px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--line);
+    border: 1.5px solid var(--line-strong);
+    position: relative;
+  }
+  .switch-track::after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--surface-raised);
+    box-shadow: 0 1px 3px var(--shadow);
+    transition: transform 0.2s ease;
+  }
+  .switch input:checked + .switch-track { background: var(--accent); border-color: var(--accent-strong); }
+  .switch input:checked + .switch-track::after { transform: translateX(18px); }
+
+  hr.div { border: none; border-top: 1.5px dashed var(--line-strong); margin: 0; }
+
+  .today-log dl {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 10px;
+    margin: 0;
+  }
+  .today-log dt { font-size: 13px; font-weight: 500; color: var(--ink-soft); }
+  .today-log dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--accent-strong);
+  }
+
+  .session-log {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .session-log-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12.5px;
+  }
+  .session-log-row:last-child { border-bottom: none; }
+  .session-log-time {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+  .session-log-task {
+    flex: 1;
+    min-width: 0;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .session-log-min {
+    flex-shrink: 0;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .session-log-empty {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+
+  .link-btn {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-size: 12.5px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    padding: 0;
+    align-self: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+  .link-btn:hover { color: var(--accent-strong); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="eyebrow">FOCUS</span>
+      <h1>PINKMODORO</h1>
+      <p class="tagline">50분 동안 차분히 집중해요</p>
+    </div>
+    <div class="topbar-actions">
+      <div class="today-pill" id="todayPill" title="오늘 완료한 집중 세션">
+        <span class="today-pill-num" id="todayCount">0</span>
+        <span class="today-pill-label">오늘 완료</span>
+      </div>
+      <div class="notes-anchor">
+        <button class="icon-btn" id="notesToggle" aria-label="떠오른 생각 메모" aria-expanded="false" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5a1 1 0 0 0 1 1h5" /><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z" /><path d="M9 13h6M9 17h4" /></svg>
+          <span class="notes-badge" id="notesBadge" hidden>0</span>
+        </button>
+        <div class="notes-popover" id="notesPopover" hidden>
+          <p class="notes-title">떠오른 생각</p>
+          <p class="notes-sub">지금 말고 나중에 할 일이면 여기 잠깐 적어두세요</p>
+          <form id="notesForm">
+            <input type="text" id="notesInput" placeholder="예: 이메일 답장하기" maxlength="120" autocomplete="off" />
+          </form>
+          <ul class="notes-list" id="notesList"></ul>
+          <p class="notes-empty" id="notesEmpty">아직 메모한 생각이 없어요</p>
+        </div>
+      </div>
+      <button class="icon-btn" id="themeToggle" aria-label="테마 전환" type="button">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <div class="status-sticker" id="statusSticker">준비되면 시작해요</div>
+
+      <div class="dial-wrap" id="dialWrap">
+        <svg class="dial" viewBox="0 0 300 300" id="dialSvg">
+          <g class="ticks" id="ticks"></g>
+          <circle class="wedge-track" cx="150" cy="150" r="118"></circle>
+          <path class="wedge" id="wedge"></path>
+          <circle class="wedge-rim" cx="150" cy="150" r="118"></circle>
+          <circle class="drag-hit" id="dragHit" cx="150" cy="150" r="110" tabindex="0" role="slider"
+            aria-label="남은 시간(드래그하여 이번 세션 길이를 조절)" aria-valuemin="1" aria-valuemax="90"></circle>
+        </svg>
+        <div class="dial-center">
+          <div class="mode-pill" id="modePill">집중</div>
+          <div class="time" id="timeDisplay">25:00</div>
+          <input class="task-input" id="taskInput" placeholder="지금 집중할 일을 적어보세요" maxlength="60" />
+        </div>
+        <div class="dial-hint" id="dialHint">멈춰있을 때 다이얼을 돌리면 이번 세션 길이를 바꿀 수 있어요</div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-ghost" id="resetBtn" type="button">초기화</button>
+        <button class="btn btn-primary" id="startBtn" type="button">시작</button>
+        <button class="btn btn-ghost" id="skipBtn" type="button">건너뛰기</button>
+      </div>
+
+      <button class="quick-start" id="quickStartBtn" type="button">5분만 가볍게 시작하기</button>
+
+      <div class="session-track" id="sessionTrack"></div>
+    </section>
+
+    <aside class="panel">
+      <h2>설정</h2>
+
+      <div class="field-group">
+        <h3>시간</h3>
+        <div class="row">
+          <span class="row-label">집중 시간</span>
+          <div class="stepper" data-key="focusMin" data-min="5" data-max="90" data-step="5">
+            <button type="button" data-dir="-1" aria-label="줄이기">−</button>
+            <output>50</output>
+            <button type="button" data-dir="1" aria-label="늘리기">+</button>
+          </div>
+        </div>
+        <div class="row">
+          <span class="row-label">짧은 휴식</span>
+          <div class="stepper" data-key="shortMin" data-min="1" data-max="30" data-step="1">
+            <button type="button" data-dir="-1" aria-label="줄이기">−</button>
+            <output>10</output>
+            <button type="button" data-dir="1" aria-label="늘리기">+</button>
+          </div>
+        </div>
+        <div class="row">
+          <span class="row-label">긴 휴식</span>
+          <div class="stepper" data-key="longMin" data-min="5" data-max="60" data-step="5">
+            <button type="button" data-dir="-1" aria-label="줄이기">−</button>
+            <output>20</output>
+            <button type="button" data-dir="1" aria-label="늘리기">+</button>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <div class="row-label">긴 휴식 전 세션 수</div>
+          </div>
+          <div class="stepper" data-key="sessionsUntilLong" data-min="2" data-max="8" data-step="1">
+            <button type="button" data-dir="-1" aria-label="줄이기">−</button>
+            <output>4</output>
+            <button type="button" data-dir="1" aria-label="늘리기">+</button>
+          </div>
+        </div>
+      </div>
+
+      <hr class="div" />
+
+      <div class="field-group">
+        <h3>자동화</h3>
+        <div class="row">
+          <span class="row-label">휴식 자동 시작</span>
+          <label class="switch">
+            <input type="checkbox" data-key="autoStartBreak" />
+            <span class="switch-track"></span>
+          </label>
+        </div>
+        <div class="row">
+          <span class="row-label">집중 자동 시작</span>
+          <label class="switch">
+            <input type="checkbox" data-key="autoStartFocus" />
+            <span class="switch-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <hr class="div" />
+
+      <div class="field-group">
+        <h3>알림</h3>
+        <div class="row">
+          <span class="row-label">알림음</span>
+          <label class="switch">
+            <input type="checkbox" data-key="soundOn" checked />
+            <span class="switch-track"></span>
+          </label>
+        </div>
+        <div class="row">
+          <div>
+            <div class="row-label">브라우저 알림</div>
+            <div class="row-sub" id="notifySub">세션이 끝나면 알려드려요</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-key="notifyOn" />
+            <span class="switch-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <hr class="div" />
+
+      <div class="field-group today-log">
+        <h3>오늘의 기록</h3>
+        <dl>
+          <dt>완료한 집중 세션</dt>
+          <dd id="logSessions">0회</dd>
+          <dt>총 집중 시간</dt>
+          <dd id="logMinutes">0분</dd>
+        </dl>
+        <ol class="session-log" id="sessionLog"></ol>
+        <p class="session-log-empty" id="sessionLogEmpty">아직 완료한 세션이 없어요</p>
+      </div>
+
+      <button class="link-btn" id="resetSettingsBtn" type="button">기본값으로 초기화</button>
+    </aside>
+  </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_SETTINGS = "pomodoro_v1_settings";
+  var STORAGE_LOG = "pomodoro_v1_log";
+  var STORAGE_THEME = "pomodoro_v1_theme";
+
+  var DEFAULT_SETTINGS = {
+    focusMin: 50,
+    shortMin: 10,
+    longMin: 20,
+    sessionsUntilLong: 4,
+    autoStartBreak: false,
+    autoStartFocus: false,
+    soundOn: true,
+    notifyOn: false
+  };
+
+  var STEP_LIMITS = {
+    focusMin: { min: 5, max: 90, step: 5 },
+    shortMin: { min: 1, max: 30, step: 1 },
+    longMin: { min: 5, max: 60, step: 5 },
+    sessionsUntilLong: { min: 2, max: 8, step: 1 }
+  };
+
+  function safeStorage() {
+    try {
+      var k = "__t__";
+      window.localStorage.setItem(k, "1");
+      window.localStorage.removeItem(k);
+      return window.localStorage;
+    } catch (e) {
+      return null;
+    }
+  }
+  var storage = safeStorage();
+
+  function loadSettings() {
+    if (!storage) return Object.assign({}, DEFAULT_SETTINGS);
+    try {
+      var raw = storage.getItem(STORAGE_SETTINGS);
+      if (!raw) return Object.assign({}, DEFAULT_SETTINGS);
+      var parsed = JSON.parse(raw);
+      return Object.assign({}, DEFAULT_SETTINGS, parsed);
+    } catch (e) {
+      return Object.assign({}, DEFAULT_SETTINGS);
+    }
+  }
+
+  function saveSettings(s) {
+    if (!storage) return;
+    try { storage.setItem(STORAGE_SETTINGS, JSON.stringify(s)); } catch (e) {}
+  }
+
+  function todayKey() {
+    var d = new Date();
+    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  }
+
+  function loadLog() {
+    var empty = { date: todayKey(), sessions: 0, minutes: 0, entries: [] };
+    if (!storage) return empty;
+    try {
+      var raw = storage.getItem(STORAGE_LOG);
+      if (!raw) return empty;
+      var parsed = JSON.parse(raw);
+      if (parsed.date !== todayKey()) return empty;
+      if (!Array.isArray(parsed.entries)) parsed.entries = [];
+      return parsed;
+    } catch (e) {
+      return empty;
+    }
+  }
+
+  function saveLog(l) {
+    if (!storage) return;
+    try { storage.setItem(STORAGE_LOG, JSON.stringify(l)); } catch (e) {}
+  }
+
+  var settings = loadSettings();
+  var log = loadLog();
+
+  // ---------- Theme ----------
+  var themeToggle = document.getElementById("themeToggle");
+  function applyTheme(t) {
+    if (t === "light" || t === "dark") {
+      document.documentElement.setAttribute("data-theme", t);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+  }
+  function currentEffectiveTheme() {
+    var explicit = document.documentElement.getAttribute("data-theme");
+    if (explicit) return explicit;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  (function initTheme() {
+    if (!storage) return;
+    var saved = storage.getItem(STORAGE_THEME);
+    if (saved) applyTheme(saved);
+  })();
+
+  themeToggle.addEventListener("click", function () {
+    var next = currentEffectiveTheme() === "dark" ? "light" : "dark";
+    applyTheme(next);
+    if (storage) { try { storage.setItem(STORAGE_THEME, next); } catch (e) {} }
+    var r = state.total > 0 ? state.remaining / state.total : 0;
+    updateFavicon(Math.max(0, Math.min(1, r)), true);
+  });
+
+  // ---------- Quick capture: parked thoughts ----------
+  // a low-friction place to drop a mid-focus thought ("later, not now")
+  // without leaving the timer or losing your place
+  var STORAGE_NOTES = "pomodoro_v1_notes";
+  var notesToggle = document.getElementById("notesToggle");
+  var notesAnchor = document.querySelector(".notes-anchor");
+  var notesPopover = document.getElementById("notesPopover");
+  var notesForm = document.getElementById("notesForm");
+  var notesInput = document.getElementById("notesInput");
+  var notesList = document.getElementById("notesList");
+  var notesEmpty = document.getElementById("notesEmpty");
+  var notesBadge = document.getElementById("notesBadge");
+
+  function loadNotes() {
+    if (!storage) return [];
+    try {
+      var raw = storage.getItem(STORAGE_NOTES);
+      var parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  function saveNotes() {
+    if (!storage) return;
+    try { storage.setItem(STORAGE_NOTES, JSON.stringify(notes)); } catch (e) {}
+  }
+
+  var notes = loadNotes();
+
+  function renderNotes() {
+    notesList.innerHTML = "";
+    notesEmpty.style.display = notes.length ? "none" : "block";
+    notesBadge.hidden = notes.length === 0;
+    notesBadge.textContent = notes.length > 9 ? "9+" : String(notes.length);
+    for (var i = notes.length - 1; i >= 0; i--) {
+      var note = notes[i];
+      var row = document.createElement("li");
+      row.className = "notes-row";
+
+      var text = document.createElement("span");
+      text.className = "notes-row-text";
+      text.textContent = note.text;
+
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "notes-row-remove";
+      remove.setAttribute("aria-label", "메모 삭제");
+      remove.textContent = "×";
+      remove.setAttribute("data-note-id", note.id);
+
+      row.appendChild(text);
+      row.appendChild(remove);
+      notesList.appendChild(row);
+    }
+  }
+
+  notesList.addEventListener("click", function (e) {
+    var id = e.target.getAttribute && e.target.getAttribute("data-note-id");
+    if (!id) return;
+    notes = notes.filter(function (n) { return n.id !== id; });
+    saveNotes();
+    renderNotes();
+  });
+
+  function openNotes() {
+    notesPopover.hidden = false;
+    notesToggle.setAttribute("aria-expanded", "true");
+    notesInput.focus();
+  }
+  function closeNotes() {
+    notesPopover.hidden = true;
+    notesToggle.setAttribute("aria-expanded", "false");
+  }
+
+  notesToggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (notesPopover.hidden) openNotes(); else closeNotes();
+  });
+
+  notesForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = notesInput.value.trim();
+    if (!text) return;
+    notes.push({ id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), text: text });
+    saveNotes();
+    renderNotes();
+    notesInput.value = "";
+    notesInput.focus();
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!notesPopover.hidden && !notesAnchor.contains(e.target)) closeNotes();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !notesPopover.hidden) closeNotes();
+  });
+
+  renderNotes();
+
+  // ---------- State machine ----------
+  var PHASE_LABEL = { focus: "집중", short: "짧은 휴식", long: "긴 휴식" };
+  var body = document.body;
+
+  var state = {
+    phase: "focus",
+    running: false,
+    total: settings.focusMin * 60,
+    remaining: settings.focusMin * 60,
+    endAt: null
+  };
+
+  var timeDisplay = document.getElementById("timeDisplay");
+  var modePill = document.getElementById("modePill");
+  var startBtn = document.getElementById("startBtn");
+  var resetBtn = document.getElementById("resetBtn");
+  var skipBtn = document.getElementById("skipBtn");
+  var quickStartBtn = document.getElementById("quickStartBtn");
+  var todayCount = document.getElementById("todayCount");
+  var todayPill = document.getElementById("todayPill");
+
+  function celebrateTodayPill() {
+    todayPill.classList.remove("celebrate");
+    void todayPill.offsetWidth;
+    todayPill.classList.add("celebrate");
+  }
+  var logSessions = document.getElementById("logSessions");
+  var logMinutes = document.getElementById("logMinutes");
+  var sessionLog = document.getElementById("sessionLog");
+  var sessionLogEmpty = document.getElementById("sessionLogEmpty");
+  var sessionTrack = document.getElementById("sessionTrack");
+  var taskInput = document.getElementById("taskInput");
+  var wedge = document.getElementById("wedge");
+  var dragHit = document.getElementById("dragHit");
+  var dialWrap = document.getElementById("dialWrap");
+  var statusSticker = document.getElementById("statusSticker");
+
+  var WEDGE_R = 118;
+  var WEDGE_CX = 150, WEDGE_CY = 150;
+
+  function wedgePath(ratio) {
+    ratio = Math.max(0, Math.min(1, ratio));
+    if (ratio <= 0.0005) return "";
+    if (ratio >= 0.9995) {
+      return "M" + (WEDGE_CX - WEDGE_R) + "," + WEDGE_CY +
+        " A" + WEDGE_R + "," + WEDGE_R + " 0 1 1 " + (WEDGE_CX + WEDGE_R) + "," + WEDGE_CY +
+        " A" + WEDGE_R + "," + WEDGE_R + " 0 1 1 " + (WEDGE_CX - WEDGE_R) + "," + WEDGE_CY + " Z";
+    }
+    var endAngle = -90 + ratio * 360;
+    var rad = (endAngle * Math.PI) / 180;
+    var x = WEDGE_CX + WEDGE_R * Math.cos(rad);
+    var y = WEDGE_CY + WEDGE_R * Math.sin(rad);
+    var largeArc = ratio > 0.5 ? 1 : 0;
+    return "M" + WEDGE_CX + "," + WEDGE_CY +
+      " L" + WEDGE_CX + "," + (WEDGE_CY - WEDGE_R) +
+      " A" + WEDGE_R + "," + WEDGE_R + " 0 " + largeArc + " 1 " + x + "," + y + " Z";
+  }
+
+  // ---------- Favicon: a tiny live copy of the wedge, for glancing at the tab ----------
+  var themeColorMeta = document.getElementById("themeColorMeta");
+  var faviconLink = document.querySelector('link[rel="icon"]');
+  if (!faviconLink) {
+    faviconLink = document.createElement("link");
+    faviconLink.rel = "icon";
+    document.head.appendChild(faviconLink);
+  }
+  var faviconCanvas = document.createElement("canvas");
+  faviconCanvas.width = 64;
+  faviconCanvas.height = 64;
+  var faviconCtx = faviconCanvas.getContext("2d");
+  var lastFaviconKey = "";
+
+  function updateFavicon(ratio, force) {
+    var key = state.phase + "|" + state.running + "|" + Math.floor(state.remaining / 5);
+    if (!force && key === lastFaviconKey) return;
+    lastFaviconKey = key;
+
+    var styles = getComputedStyle(document.body);
+    var track = styles.getPropertyValue("--line").trim() || "#e5e5e5";
+    var fill = styles.getPropertyValue("--accent").trim() || "#e0aeb2";
+
+    var ctx = faviconCtx;
+    var cx = 32, cy = 32, r = 28;
+    ctx.clearRect(0, 0, 64, 64);
+    ctx.globalAlpha = state.running ? 1 : 0.5;
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = track;
+    ctx.fill();
+
+    if (ratio > 0.001) {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + ratio * Math.PI * 2);
+      ctx.closePath();
+      ctx.fillStyle = fill;
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    faviconLink.href = faviconCanvas.toDataURL("image/png");
+    if (themeColorMeta) themeColorMeta.setAttribute("content", fill);
+  }
+
+  function phaseMinutesFor(phase) {
+    if (phase === "focus") return settings.focusMin;
+    if (phase === "short") return settings.shortMin;
+    return settings.longMin;
+  }
+
+  // ---------- Ticks ----------
+  (function buildTicks() {
+    var g = document.getElementById("ticks");
+    var cx = 150, cy = 150;
+    for (var i = 0; i < 60; i++) {
+      var angle = (i / 60) * Math.PI * 2 - Math.PI / 2;
+      var major = i % 5 === 0;
+      var rOuter = 132;
+      var rInner = major ? 122 : 126;
+      var x1 = cx + Math.cos(angle) * rInner;
+      var y1 = cy + Math.sin(angle) * rInner;
+      var x2 = cx + Math.cos(angle) * rOuter;
+      var y2 = cy + Math.sin(angle) * rOuter;
+      var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", x1.toFixed(2));
+      line.setAttribute("y1", y1.toFixed(2));
+      line.setAttribute("x2", x2.toFixed(2));
+      line.setAttribute("y2", y2.toFixed(2));
+      line.setAttribute("class", "tick" + (major ? " major" : ""));
+      g.appendChild(line);
+    }
+  })();
+
+  // ---------- Rendering ----------
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+  }
+
+  function formatClock(d) {
+    var h = d.getHours();
+    var m = d.getMinutes();
+    return (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m);
+  }
+
+  function renderSessionTrack() {
+    sessionTrack.innerHTML = "";
+    var n = settings.sessionsUntilLong;
+    var completedInCycle = log.sessions % n;
+    for (var i = 0; i < n; i++) {
+      var dot = document.createElement("span");
+      dot.className = "session-dot" + (i < completedInCycle ? " filled" : "");
+      sessionTrack.appendChild(dot);
+    }
+    var label = document.createElement("span");
+    label.className = "session-track-label";
+    label.textContent = "다음 긴 휴식까지";
+    sessionTrack.appendChild(label);
+  }
+
+  function renderSessionLog() {
+    var entries = log.entries || [];
+    sessionLog.innerHTML = "";
+    sessionLogEmpty.style.display = entries.length ? "none" : "block";
+    for (var i = entries.length - 1; i >= 0; i--) {
+      var entry = entries[i];
+      var row = document.createElement("li");
+      row.className = "session-log-row";
+
+      var time = document.createElement("span");
+      time.className = "session-log-time";
+      time.textContent = entry.time;
+
+      var task = document.createElement("span");
+      task.className = "session-log-task";
+      task.textContent = entry.task || "집중 세션";
+
+      var min = document.createElement("span");
+      min.className = "session-log-min";
+      min.textContent = entry.minutes + "분";
+
+      row.appendChild(time);
+      row.appendChild(task);
+      row.appendChild(min);
+      sessionLog.appendChild(row);
+    }
+  }
+
+  var STATUS_TEXT = {
+    idle: "준비되면 시작해요",
+    focusing: "집중하는 중이에요",
+    restingShort: "잠깐 쉬어가요",
+    restingLong: "충분히 쉬어도 좋아요",
+    paused: "잠깐 멈췄어요, 기다릴게요"
+  };
+
+  function computeStatus() {
+    if (!state.running) {
+      return state.remaining < state.total ? "paused" : "idle";
+    }
+    return state.phase === "focus" ? "focusing" : "resting";
+  }
+
+  function updateStatusSticker() {
+    var status = computeStatus();
+    if (status === "idle") statusSticker.textContent = STATUS_TEXT.idle;
+    else if (status === "focusing") statusSticker.textContent = STATUS_TEXT.focusing;
+    else if (status === "paused") statusSticker.textContent = STATUS_TEXT.paused;
+    else statusSticker.textContent = state.phase === "long" ? STATUS_TEXT.restingLong : STATUS_TEXT.restingShort;
+  }
+
+  function render() {
+    timeDisplay.textContent = formatTime(Math.max(0, state.remaining));
+    modePill.textContent = PHASE_LABEL[state.phase];
+    body.setAttribute("data-phase", state.phase);
+    startBtn.textContent = state.running ? "일시정지" : (state.remaining < state.total ? "계속" : "시작");
+    var ratio = state.total > 0 ? state.remaining / state.total : 0;
+    ratio = Math.max(0, Math.min(1, ratio));
+    wedge.setAttribute("d", wedgePath(ratio));
+    updateFavicon(ratio);
+    dialWrap.classList.toggle("ending-soon", state.running && state.remaining > 0 && state.remaining <= 120);
+    dragHit.setAttribute("aria-valuenow", Math.round(state.total / 60));
+    todayCount.textContent = log.sessions;
+    logSessions.textContent = log.sessions + "회";
+    logMinutes.textContent = log.minutes + "분";
+    renderSessionTrack();
+    updateStatusSticker();
+
+    if (state.running) {
+      document.title = formatTime(state.remaining) + " · " + PHASE_LABEL[state.phase];
+    } else {
+      document.title = "핑크모도로";
+    }
+  }
+
+  // ---------- Audio ----------
+  var audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) {
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) { audioCtx = null; }
+    } else if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+  }
+  function playBell() {
+    if (!settings.soundOn || !audioCtx) return;
+    var now = audioCtx.currentTime;
+    var freqs = [880, 1318.5];
+    freqs.forEach(function (f, i) {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = f;
+      var start = now + i * 0.14;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.9);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(start);
+      osc.stop(start + 0.95);
+    });
+  }
+
+  function notify(title, bodyText) {
+    if (!settings.notifyOn) return;
+    if (typeof Notification === "undefined") return;
+    if (Notification.permission === "granted") {
+      try { new Notification(title, { body: bodyText }); } catch (e) {}
+    }
+  }
+
+  // ---------- Timer loop ----------
+  var intervalId = null;
+
+  function tick() {
+    if (!state.running || state.endAt == null) return;
+    var remaining = Math.round((state.endAt - Date.now()) / 1000);
+    if (remaining <= 0) {
+      state.remaining = 0;
+      render();
+      completePhase();
+      return;
+    }
+    state.remaining = remaining;
+    render();
+  }
+
+  function start() {
+    ensureAudio();
+    if (state.remaining <= 0) state.remaining = state.total;
+    state.running = true;
+    state.endAt = Date.now() + state.remaining * 1000;
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(tick, 250);
+    render();
+  }
+
+  function pause() {
+    state.running = false;
+    if (intervalId) clearInterval(intervalId);
+    intervalId = null;
+    render();
+  }
+
+  function setPhase(phase, opts) {
+    opts = opts || {};
+    state.phase = phase;
+    state.total = phaseMinutesFor(phase) * 60;
+    state.remaining = state.total;
+    state.running = false;
+    state.endAt = null;
+    if (intervalId) clearInterval(intervalId);
+    intervalId = null;
+    render();
+    if (opts.autoStart) start();
+  }
+
+  function nextPhase() {
+    if (state.phase === "focus") {
+      var willBeLong = log.sessions > 0 && log.sessions % settings.sessionsUntilLong === 0;
+      return willBeLong ? "long" : "short";
+    }
+    return "focus";
+  }
+
+  function completePhase() {
+    pause();
+    playBell();
+    var wasFocus = state.phase === "focus";
+    if (wasFocus) {
+      log.sessions += 1;
+      log.minutes += settings.focusMin;
+      log.date = todayKey();
+      if (!Array.isArray(log.entries)) log.entries = [];
+      log.entries.push({
+        time: formatClock(new Date()),
+        task: (taskInput.value || "").trim().slice(0, 60),
+        minutes: settings.focusMin
+      });
+      saveLog(log);
+      renderSessionLog();
+      notify("집중 세션 완료", "잘하셨어요! 이제 휴식할 시간이에요.");
+      celebrateTodayPill();
+    } else {
+      notify("휴식 종료", "다시 집중할 준비가 되셨나요?");
+    }
+    var next = nextPhase();
+    var autoStart = next === "focus" ? settings.autoStartFocus : settings.autoStartBreak;
+    setPhase(next, { autoStart: autoStart });
+  }
+
+  function resetCurrentPhase() {
+    state.remaining = state.total;
+    state.running = false;
+    state.endAt = null;
+    if (intervalId) clearInterval(intervalId);
+    intervalId = null;
+    render();
+  }
+
+  function skipPhase() {
+    var next = nextPhase();
+    setPhase(next, { autoStart: false });
+  }
+
+  startBtn.addEventListener("click", function () {
+    if (state.running) pause(); else start();
+  });
+  resetBtn.addEventListener("click", resetCurrentPhase);
+  skipBtn.addEventListener("click", skipPhase);
+
+  quickStartBtn.addEventListener("click", function () {
+    if (state.running) return;
+    if (state.phase !== "focus") {
+      state.phase = "focus";
+      body.setAttribute("data-phase", "focus");
+    }
+    state.total = 5 * 60;
+    state.remaining = 5 * 60;
+    start();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    var typing = document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA");
+    if (e.code === "Space" && !typing) {
+      e.preventDefault();
+      if (state.running) pause(); else start();
+    }
+  });
+
+  // ---------- Dial drag-to-set (only while idle/paused) ----------
+  function angleToMinutes(clientX, clientY) {
+    var rect = dragHit.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var dx = clientX - cx;
+    var dy = clientY - cy;
+    var angle = Math.atan2(dy, dx) + Math.PI / 2;
+    if (angle < 0) angle += Math.PI * 2;
+    var ratio = angle / (Math.PI * 2);
+    var minutes = Math.round(ratio * 60);
+    if (minutes === 0) minutes = 60;
+    return minutes;
+  }
+
+  var dragging = false;
+  function canDrag() { return !state.running; }
+
+  function onPointerDown(e) {
+    if (!canDrag()) return;
+    dragging = true;
+    dialWrap.classList.add("dragging");
+    dragHit.setPointerCapture && dragHit.setPointerCapture(e.pointerId);
+    onPointerMove(e);
+  }
+  function onPointerMove(e) {
+    if (!dragging) return;
+    var minutes = angleToMinutes(e.clientX, e.clientY);
+    state.total = minutes * 60;
+    state.remaining = minutes * 60;
+    render();
+  }
+  function onPointerUp() {
+    dragging = false;
+    dialWrap.classList.remove("dragging");
+  }
+
+  dragHit.addEventListener("pointerdown", onPointerDown);
+  window.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("pointerup", onPointerUp);
+
+  dragHit.addEventListener("keydown", function (e) {
+    if (!canDrag()) return;
+    var minutes = Math.round(state.total / 60);
+    if (e.key === "ArrowUp" || e.key === "ArrowRight") {
+      minutes = Math.min(90, minutes + 1);
+    } else if (e.key === "ArrowDown" || e.key === "ArrowLeft") {
+      minutes = Math.max(1, minutes - 1);
+    } else {
+      return;
+    }
+    e.preventDefault();
+    state.total = minutes * 60;
+    state.remaining = minutes * 60;
+    render();
+  });
+
+  // ---------- Settings panel wiring ----------
+  var steppers = document.querySelectorAll(".stepper");
+  function refreshStepperOutputs() {
+    steppers.forEach(function (el) {
+      var key = el.getAttribute("data-key");
+      el.querySelector("output").textContent = settings[key];
+    });
+  }
+
+  steppers.forEach(function (el) {
+    var key = el.getAttribute("data-key");
+    var lim = STEP_LIMITS[key];
+    el.querySelectorAll("button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var dir = parseInt(btn.getAttribute("data-dir"), 10);
+        var val = settings[key] + dir * lim.step;
+        val = Math.max(lim.min, Math.min(lim.max, val));
+        settings[key] = val;
+        saveSettings(settings);
+        refreshStepperOutputs();
+        if (key === "focusMin" && state.phase === "focus" && !state.running && state.remaining === state.total) {
+          setPhase("focus");
+        } else if (key === "shortMin" && state.phase === "short" && !state.running && state.remaining === state.total) {
+          setPhase("short");
+        } else if (key === "longMin" && state.phase === "long" && !state.running && state.remaining === state.total) {
+          setPhase("long");
+        } else {
+          renderSessionTrack();
+        }
+      });
+    });
+  });
+
+  var switches = document.querySelectorAll(".switch input");
+  switches.forEach(function (input) {
+    var key = input.getAttribute("data-key");
+    input.checked = !!settings[key];
+    input.addEventListener("change", function () {
+      settings[key] = input.checked;
+      saveSettings(settings);
+      if (key === "notifyOn" && input.checked) {
+        var notifySub = document.getElementById("notifySub");
+        if (typeof Notification === "undefined" || !window.isSecureContext) {
+          settings.notifyOn = false;
+          input.checked = false;
+          saveSettings(settings);
+          notifySub.textContent = "이 화면에서는 브라우저 알림을 켤 수 없어요. 파일을 저장해 직접 열어보세요.";
+          return;
+        }
+        if (Notification.permission === "denied") {
+          settings.notifyOn = false;
+          input.checked = false;
+          saveSettings(settings);
+          notifySub.textContent = "알림이 차단되어 있어요. 브라우저 주소창 옆 설정에서 허용해주세요.";
+          return;
+        }
+        Notification.requestPermission().then(function (perm) {
+          if (perm !== "granted") {
+            settings.notifyOn = false;
+            input.checked = false;
+            saveSettings(settings);
+            notifySub.textContent = "알림 권한을 허용하지 않으면 켤 수 없어요.";
+          } else {
+            notifySub.textContent = "세션이 끝나면 알려드려요";
+          }
+        }).catch(function () {
+          settings.notifyOn = false;
+          input.checked = false;
+          saveSettings(settings);
+          notifySub.textContent = "이 화면에서는 브라우저 알림을 켤 수 없어요. 파일을 저장해 직접 열어보세요.";
+        });
+      }
+    });
+  });
+
+  document.getElementById("resetSettingsBtn").addEventListener("click", function () {
+    settings = Object.assign({}, DEFAULT_SETTINGS);
+    saveSettings(settings);
+    refreshStepperOutputs();
+    switches.forEach(function (input) {
+      input.checked = !!settings[input.getAttribute("data-key")];
+    });
+    setPhase("focus");
+  });
+
+  taskInput.addEventListener("input", function () {
+    if (!storage) return;
+    try { storage.setItem("pomodoro_v1_task", taskInput.value); } catch (e) {}
+  });
+  if (storage) {
+    try {
+      var savedTask = storage.getItem("pomodoro_v1_task");
+      if (savedTask) taskInput.value = savedTask;
+    } catch (e) {}
+  }
+
+  // ---------- PWA: install as an app, works offline once cached ----------
+  // Only works when this page is the top-level document served over http(s)
+  // (a self-hosted copy, or the artifact opened in its own tab) — a service
+  // worker can't register inside file:// or an embedded preview iframe, so
+  // this fails silently there and the app still runs normally without it.
+  if ("serviceWorker" in navigator && window.isSecureContext) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("./sw.js").catch(function () {});
+    });
+  }
+
+  // ---------- Init ----------
+  refreshStepperOutputs();
+  renderSessionLog();
+  setPhase("focus");
+})();
+</script>

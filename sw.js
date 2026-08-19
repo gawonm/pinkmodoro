@@ -1,5 +1,5 @@
 const CACHE = "pinkmodoro-v1";
-const APP_SHELL = ["./", "./pomodoro-timer.html"];
+const APP_SHELL = ["./", "./index.html", "./pomodoro-timer.html"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
