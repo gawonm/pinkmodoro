@@ -810,7 +810,7 @@
         </button>
         <div class="notes-popover" id="notesPopover" hidden>
           <p class="notes-title">떠오른 생각</p>
-          <p class="notes-sub">지금 말고 나중에 할 일이면 여기 잠깐 적어두세요</p>
+          <p class="notes-sub">지금 말고 나중에 할 일이면 여기 잠깐 적어두세요 · 하루 지나면 자동으로 정리돼요</p>
           <form id="notesForm">
             <input type="text" id="notesInput" placeholder="예: 이메일 답장하기" maxlength="120" autocomplete="off" />
           </form>
@@ -1101,6 +1101,18 @@
 
   var notes = loadNotes();
 
+  var NOTE_TTL_MS = 24 * 60 * 60 * 1000; // hold parked thoughts for about a day, then self-clean
+
+  function pruneExpiredNotes() {
+    var now = Date.now();
+    var before = notes.length;
+    notes = notes.filter(function (n) {
+      if (typeof n.createdAt !== "number") return true; // grandfather notes saved before this existed
+      return now - n.createdAt < NOTE_TTL_MS;
+    });
+    if (notes.length !== before) saveNotes();
+  }
+
   function renderNotes() {
     notesList.innerHTML = "";
     notesEmpty.style.display = notes.length ? "none" : "block";
@@ -1137,6 +1149,8 @@
   });
 
   function openNotes() {
+    pruneExpiredNotes();
+    renderNotes();
     notesPopover.hidden = false;
     notesToggle.setAttribute("aria-expanded", "true");
     notesInput.focus();
@@ -1155,7 +1169,7 @@
     e.preventDefault();
     var text = notesInput.value.trim();
     if (!text) return;
-    notes.push({ id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), text: text });
+    notes.push({ id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), text: text, createdAt: Date.now() });
     saveNotes();
     renderNotes();
     notesInput.value = "";
@@ -1169,6 +1183,7 @@
     if (e.key === "Escape" && !notesPopover.hidden) closeNotes();
   });
 
+  pruneExpiredNotes();
   renderNotes();
 
   // ---------- State machine ----------
