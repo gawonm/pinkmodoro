@@ -1352,7 +1352,7 @@
 
       var min = document.createElement("span");
       min.className = "session-log-min";
-      min.textContent = entry.minutes + "분";
+      min.textContent = entry.minutes + "분" + (entry.skipped ? " · 중단" : "");
 
       row.appendChild(time);
       row.appendChild(task);
@@ -1537,6 +1537,22 @@
   }
 
   function skipPhase() {
+    if (state.phase === "focus") {
+      var elapsedMin = Math.round((state.total - state.remaining) / 60);
+      if (elapsedMin >= 1) {
+        log.minutes += elapsedMin;
+        log.date = todayKey();
+        if (!Array.isArray(log.entries)) log.entries = [];
+        log.entries.push({
+          time: formatClock(new Date()),
+          task: (taskInput.value || "").trim().slice(0, 60),
+          minutes: elapsedMin,
+          skipped: true
+        });
+        saveLog(log);
+        renderSessionLog();
+      }
+    }
     var next = nextPhase();
     setPhase(next, { autoStart: false });
   }
