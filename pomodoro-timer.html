@@ -1516,6 +1516,11 @@
     return "focus";
   }
 
+  function clearTaskInput() {
+    taskInput.value = "";
+    if (storage) { try { storage.setItem("pomodoro_v1_task", ""); } catch (e) {} }
+  }
+
   function completePhase() {
     pause();
     playBell();
@@ -1532,6 +1537,7 @@
       });
       saveLog(log);
       renderSessionLog();
+      clearTaskInput();
       notify("집중 세션 완료", "잘하셨어요! 이제 휴식할 시간이에요.");
       celebrateTodayPill();
     } else {
@@ -1567,6 +1573,7 @@
         saveLog(log);
         renderSessionLog();
       }
+      clearTaskInput();
     }
     var next = nextPhase();
     setPhase(next, { autoStart: false });
