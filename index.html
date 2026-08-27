@@ -794,13 +794,48 @@
   }
   .session-log-row {
     display: flex;
-    align-items: baseline;
-    gap: 8px;
+    flex-direction: column;
+    gap: 3px;
     padding: 7px 4px;
     border-bottom: 1px solid var(--line);
     font-size: 12.5px;
   }
   .session-log-row:last-child { border-bottom: none; }
+  .session-log-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .session-log-progress-btn {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 44px;
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    text-align: left;
+    cursor: pointer;
+  }
+  .session-log-progress-btn.filled { color: var(--ink-soft); }
+  .session-log-progress-btn:hover { color: var(--c-focus-strong); }
+  .session-log-progress-input {
+    margin-left: 44px;
+    box-sizing: border-box;
+    width: calc(100% - 44px);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .session-log-progress-input:focus {
+    outline: none;
+    border-color: var(--c-focus-strong);
+  }
   .session-log-time {
     font-family: var(--font-display);
     font-weight: 700;
@@ -1544,6 +1579,10 @@
     return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
   }
 
+  function makeId() {
+    return Date.now() + "-" + Math.random().toString(36).slice(2, 7);
+  }
+
   function formatClock(d) {
     var h = d.getHours();
     var m = d.getMinutes();
@@ -1565,6 +1604,18 @@
     sessionTrack.appendChild(label);
   }
 
+  function commitProgressNote(entryId, value) {
+    var entries = log.entries || [];
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].id === entryId) {
+        entries[i].progress = (value || "").trim().slice(0, 80);
+        break;
+      }
+    }
+    saveLog(log);
+    renderSessionLog();
+  }
+
   function renderSessionLog() {
     var entries = log.entries || [];
     sessionLog.innerHTML = "";
@@ -1573,6 +1624,9 @@
       var entry = entries[i];
       var row = document.createElement("li");
       row.className = "session-log-row";
+
+      var main = document.createElement("div");
+      main.className = "session-log-main";
 
       var time = document.createElement("span");
       time.className = "session-log-time";
@@ -1586,9 +1640,57 @@
       min.className = "session-log-min";
       min.textContent = entry.minutes + "분" + (entry.skipped ? " · 중단" : entry.early ? " · 조기 완료" : "");
 
-      row.appendChild(time);
-      row.appendChild(task);
-      row.appendChild(min);
+      main.appendChild(time);
+      main.appendChild(task);
+      main.appendChild(min);
+      row.appendChild(main);
+
+      if (entry.id) {
+        (function (entryId, entryProgress) {
+          var progressBtn = document.createElement("button");
+          progressBtn.type = "button";
+          progressBtn.className = "session-log-progress-btn" + (entryProgress ? " filled" : "");
+          progressBtn.textContent = entryProgress ? "↳ " + entryProgress : "↳ 어디까지 했는지 기록하기";
+
+          progressBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var input = document.createElement("input");
+            input.type = "text";
+            input.className = "session-log-progress-input";
+            input.maxLength = 80;
+            input.value = entryProgress || "";
+            input.placeholder = "예: 3번 문제까지 풀었음";
+            row.replaceChild(input, progressBtn);
+            input.focus();
+            input.select();
+
+            var done = false;
+            function commit() {
+              if (done) return;
+              done = true;
+              commitProgressNote(entryId, input.value);
+            }
+            input.addEventListener("keydown", function (ev) {
+              ev.stopPropagation();
+              if (ev.key === "Enter") {
+                ev.preventDefault();
+                commit();
+              } else if (ev.key === "Escape") {
+                ev.preventDefault();
+                done = true;
+                renderSessionLog();
+              }
+            });
+            input.addEventListener("blur", commit);
+            input.addEventListener("click", function (ev) {
+              ev.stopPropagation();
+            });
+          });
+
+          row.appendChild(progressBtn);
+        })(entry.id, entry.progress);
+      }
+
       sessionLog.appendChild(row);
     }
   }
@@ -1751,6 +1853,7 @@
       log.date = todayKey();
       if (!Array.isArray(log.entries)) log.entries = [];
       log.entries.push({
+        id: makeId(),
         time: formatClock(new Date()),
         task: (taskInput.value || "").trim().slice(0, 60),
         minutes: settings.focusMin
@@ -1782,6 +1885,7 @@
     log.date = todayKey();
     if (!Array.isArray(log.entries)) log.entries = [];
     log.entries.push({
+      id: makeId(),
       time: formatClock(new Date()),
       task: (taskInput.value || "").trim().slice(0, 60),
       minutes: elapsedMin,
@@ -1813,6 +1917,7 @@
         log.date = todayKey();
         if (!Array.isArray(log.entries)) log.entries = [];
         log.entries.push({
+          id: makeId(),
           time: formatClock(new Date()),
           task: (taskInput.value || "").trim().slice(0, 60),
           minutes: elapsedMin,
