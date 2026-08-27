@@ -285,7 +285,7 @@
     color: var(--ink-faint);
   }
 
-  #notesForm input {
+  #notesForm input, #checklistForm input {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid var(--line-strong);
@@ -296,11 +296,11 @@
     color: var(--ink);
     background: var(--paper);
   }
-  #notesForm input:focus {
+  #notesForm input:focus, #checklistForm input:focus {
     outline: none;
     border-color: var(--c-focus-strong);
   }
-  #notesForm input::placeholder { color: var(--ink-faint); }
+  #notesForm input::placeholder, #checklistForm input::placeholder { color: var(--ink-faint); }
 
   .notes-list {
     list-style: none;
@@ -344,6 +344,63 @@
     font-size: 12.5px;
     color: var(--ink-faint);
   }
+
+  .checklist-list {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .checklist-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    border-radius: 10px;
+  }
+  .checklist-row:hover { background: var(--paper); }
+  .checklist-check {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--c-focus-strong);
+    cursor: pointer;
+  }
+  .checklist-text {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 6px 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+  }
+  .checklist-text:hover { color: var(--c-focus-strong); }
+  .checklist-row.done .checklist-text {
+    color: var(--ink-faint);
+    text-decoration: line-through;
+  }
+  .checklist-remove {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--ink-faint);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .checklist-remove:hover { color: var(--c-focus-strong); background: var(--accent-tint); }
+
   .icon-btn .moon { display: none; }
   :root[data-theme="dark"] .icon-btn .sun,
   :root:not([data-theme="light"]) .icon-btn .sun { display: none; }
@@ -803,7 +860,7 @@
         <span class="today-pill-num" id="todayCount">0</span>
         <span class="today-pill-label">오늘 완료</span>
       </div>
-      <div class="notes-anchor">
+      <div class="notes-anchor" id="notesAnchor">
         <button class="icon-btn" id="notesToggle" aria-label="떠오른 생각 메모" aria-expanded="false" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5a1 1 0 0 0 1 1h5" /><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z" /><path d="M9 13h6M9 17h4" /></svg>
           <span class="notes-badge" id="notesBadge" hidden>0</span>
@@ -816,6 +873,21 @@
           </form>
           <ul class="notes-list" id="notesList"></ul>
           <p class="notes-empty" id="notesEmpty">아직 메모한 생각이 없어요</p>
+        </div>
+      </div>
+      <div class="notes-anchor" id="checklistAnchor">
+        <button class="icon-btn" id="checklistToggle" aria-label="오늘 할 일 체크리스트" aria-expanded="false" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="4" height="4" rx="1" /><path d="M10 7h11" /><rect x="3" y="15" width="4" height="4" rx="1" /><path d="M10 17h11" /></svg>
+          <span class="notes-badge" id="checklistBadge" hidden>0</span>
+        </button>
+        <div class="notes-popover" id="checklistPopover" hidden>
+          <p class="notes-title">오늘 할 일</p>
+          <p class="notes-sub">항목을 누르면 집중할 일 칸에 바로 들어가요</p>
+          <form id="checklistForm">
+            <input type="text" id="checklistInput" placeholder="예: 3장 읽기" maxlength="80" autocomplete="off" />
+          </form>
+          <ul class="checklist-list" id="checklistList"></ul>
+          <p class="notes-empty" id="checklistEmpty">오늘 할 일을 추가해보세요</p>
         </div>
       </div>
       <button class="icon-btn" id="themeToggle" aria-label="테마 전환" type="button">
@@ -1076,7 +1148,7 @@
   // without leaving the timer or losing your place
   var STORAGE_NOTES = "pomodoro_v1_notes";
   var notesToggle = document.getElementById("notesToggle");
-  var notesAnchor = document.querySelector(".notes-anchor");
+  var notesAnchor = document.getElementById("notesAnchor");
   var notesPopover = document.getElementById("notesPopover");
   var notesForm = document.getElementById("notesForm");
   var notesInput = document.getElementById("notesInput");
@@ -1143,12 +1215,14 @@
   notesList.addEventListener("click", function (e) {
     var id = e.target.getAttribute && e.target.getAttribute("data-note-id");
     if (!id) return;
+    e.stopPropagation();
     notes = notes.filter(function (n) { return n.id !== id; });
     saveNotes();
     renderNotes();
   });
 
   function openNotes() {
+    closeChecklist();
     pruneExpiredNotes();
     renderNotes();
     notesPopover.hidden = false;
@@ -1176,15 +1250,156 @@
     notesInput.focus();
   });
 
+  // ---------- Today's checklist ----------
+  // planned tasks for today, tap one to drop it straight into the task field
+  var STORAGE_CHECKLIST = "pomodoro_v1_checklist";
+  var checklistToggle = document.getElementById("checklistToggle");
+  var checklistAnchor = document.getElementById("checklistAnchor");
+  var checklistPopover = document.getElementById("checklistPopover");
+  var checklistForm = document.getElementById("checklistForm");
+  var checklistInput = document.getElementById("checklistInput");
+  var checklistList = document.getElementById("checklistList");
+  var checklistEmpty = document.getElementById("checklistEmpty");
+  var checklistBadge = document.getElementById("checklistBadge");
+
+  function loadChecklist() {
+    var empty = { date: todayKey(), items: [] };
+    if (!storage) return empty;
+    try {
+      var raw = storage.getItem(STORAGE_CHECKLIST);
+      if (!raw) return empty;
+      var parsed = JSON.parse(raw);
+      if (parsed.date !== todayKey() || !Array.isArray(parsed.items)) return empty;
+      return parsed;
+    } catch (e) {
+      return empty;
+    }
+  }
+  function saveChecklist() {
+    if (!storage) return;
+    try { storage.setItem(STORAGE_CHECKLIST, JSON.stringify(checklist)); } catch (e) {}
+  }
+
+  var checklist = loadChecklist();
+
+  function renderChecklist() {
+    var items = checklist.items;
+    checklistList.innerHTML = "";
+    checklistEmpty.style.display = items.length ? "none" : "block";
+    var pending = items.filter(function (it) { return !it.done; }).length;
+    checklistBadge.hidden = pending === 0;
+    checklistBadge.textContent = pending > 9 ? "9+" : String(pending);
+
+    var sorted = items.slice().sort(function (a, b) {
+      return (a.done ? 1 : 0) - (b.done ? 1 : 0);
+    });
+
+    for (var i = 0; i < sorted.length; i++) {
+      var item = sorted[i];
+      var row = document.createElement("li");
+      row.className = "checklist-row" + (item.done ? " done" : "");
+
+      var check = document.createElement("input");
+      check.type = "checkbox";
+      check.className = "checklist-check";
+      check.checked = !!item.done;
+      check.setAttribute("aria-label", "완료 표시");
+      check.setAttribute("data-check-id", item.id);
+
+      var text = document.createElement("button");
+      text.type = "button";
+      text.className = "checklist-text";
+      text.textContent = item.text;
+      text.setAttribute("aria-label", "집중할 일 칸에 넣기: " + item.text);
+      text.setAttribute("data-use-id", item.id);
+
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "checklist-remove";
+      remove.setAttribute("aria-label", "삭제");
+      remove.textContent = "×";
+      remove.setAttribute("data-remove-id", item.id);
+
+      row.appendChild(check);
+      row.appendChild(text);
+      row.appendChild(remove);
+      checklistList.appendChild(row);
+    }
+  }
+
+  checklistList.addEventListener("click", function (e) {
+    var useId = e.target.getAttribute && e.target.getAttribute("data-use-id");
+    var removeId = e.target.getAttribute && e.target.getAttribute("data-remove-id");
+    if (useId) {
+      e.stopPropagation();
+      var item = checklist.items.filter(function (it) { return it.id === useId; })[0];
+      if (item) {
+        taskInput.value = item.text;
+        if (storage) { try { storage.setItem("pomodoro_v1_task", item.text); } catch (err) {} }
+      }
+      closeChecklist();
+      taskInput.focus();
+    } else if (removeId) {
+      e.stopPropagation();
+      checklist.items = checklist.items.filter(function (it) { return it.id !== removeId; });
+      saveChecklist();
+      renderChecklist();
+    }
+  });
+
+  checklistList.addEventListener("change", function (e) {
+    var id = e.target.getAttribute && e.target.getAttribute("data-check-id");
+    if (!id) return;
+    var item = checklist.items.filter(function (it) { return it.id === id; })[0];
+    if (item) item.done = e.target.checked;
+    saveChecklist();
+    renderChecklist();
+  });
+
+  function openChecklist() {
+    closeNotes();
+    checklist = loadChecklist();
+    renderChecklist();
+    checklistPopover.hidden = false;
+    checklistToggle.setAttribute("aria-expanded", "true");
+    checklistInput.focus();
+  }
+  function closeChecklist() {
+    checklistPopover.hidden = true;
+    checklistToggle.setAttribute("aria-expanded", "false");
+  }
+
+  checklistToggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (checklistPopover.hidden) openChecklist(); else closeChecklist();
+  });
+
+  checklistForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = checklistInput.value.trim();
+    if (!text) return;
+    checklist.date = todayKey();
+    checklist.items.push({ id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), text: text, done: false });
+    saveChecklist();
+    renderChecklist();
+    checklistInput.value = "";
+    checklistInput.focus();
+  });
+
   document.addEventListener("click", function (e) {
     if (!notesPopover.hidden && !notesAnchor.contains(e.target)) closeNotes();
+    if (!checklistPopover.hidden && !checklistAnchor.contains(e.target)) closeChecklist();
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !notesPopover.hidden) closeNotes();
+    if (e.key === "Escape") {
+      if (!notesPopover.hidden) closeNotes();
+      if (!checklistPopover.hidden) closeChecklist();
+    }
   });
 
   pruneExpiredNotes();
   renderNotes();
+  renderChecklist();
 
   // ---------- State machine ----------
   var PHASE_LABEL = { focus: "집중", short: "짧은 휴식", long: "긴 휴식" };
