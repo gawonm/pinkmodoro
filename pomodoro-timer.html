@@ -925,6 +925,7 @@
       </div>
 
       <button class="quick-start" id="quickStartBtn" type="button">5분만 가볍게 시작하기</button>
+      <button class="quick-start" id="finishEarlyBtn" type="button" hidden>할 일을 다 했어요 · 여기서 끝내기</button>
 
       <div class="session-track" id="sessionTrack"></div>
     </section>
@@ -1419,6 +1420,7 @@
   var resetBtn = document.getElementById("resetBtn");
   var skipBtn = document.getElementById("skipBtn");
   var quickStartBtn = document.getElementById("quickStartBtn");
+  var finishEarlyBtn = document.getElementById("finishEarlyBtn");
   var todayCount = document.getElementById("todayCount");
   var todayPill = document.getElementById("todayPill");
 
@@ -1582,7 +1584,7 @@
 
       var min = document.createElement("span");
       min.className = "session-log-min";
-      min.textContent = entry.minutes + "분" + (entry.skipped ? " · 중단" : "");
+      min.textContent = entry.minutes + "분" + (entry.skipped ? " · 중단" : entry.early ? " · 조기 완료" : "");
 
       row.appendChild(time);
       row.appendChild(task);
@@ -1619,6 +1621,9 @@
     modePill.textContent = PHASE_LABEL[state.phase];
     body.setAttribute("data-phase", state.phase);
     startBtn.textContent = state.running ? "일시정지" : (state.remaining < state.total ? "계속" : "시작");
+    var showFinishEarly = state.phase === "focus" && (state.running || state.remaining < state.total);
+    finishEarlyBtn.hidden = !showFinishEarly;
+    quickStartBtn.hidden = showFinishEarly || state.running;
     var ratio = state.total > 0 ? state.remaining / state.total : 0;
     ratio = Math.max(0, Math.min(1, ratio));
     wedge.setAttribute("d", wedgePath(ratio));
@@ -1763,6 +1768,34 @@
     setPhase(next, { autoStart: autoStart });
   }
 
+  // finishing the task before the timer runs out still counts as a real,
+  // completed pomodoro — just logged with the time actually spent, not the
+  // full planned length. Different from skip, which doesn't count it at all.
+  function finishEarly() {
+    if (state.phase !== "focus") return;
+    if (!state.running && state.remaining >= state.total) return;
+    pause();
+    playBell();
+    var elapsedMin = Math.max(1, Math.round((state.total - state.remaining) / 60));
+    log.sessions += 1;
+    log.minutes += elapsedMin;
+    log.date = todayKey();
+    if (!Array.isArray(log.entries)) log.entries = [];
+    log.entries.push({
+      time: formatClock(new Date()),
+      task: (taskInput.value || "").trim().slice(0, 60),
+      minutes: elapsedMin,
+      early: true
+    });
+    saveLog(log);
+    renderSessionLog();
+    clearTaskInput();
+    notify("집중 세션 완료", "예정보다 일찍 끝냈어요! 잘하셨어요.");
+    celebrateTodayPill();
+    var next = nextPhase();
+    setPhase(next, { autoStart: settings.autoStartBreak });
+  }
+
   function resetCurrentPhase() {
     state.remaining = state.total;
     state.running = false;
@@ -1810,6 +1843,8 @@
     state.remaining = 5 * 60;
     start();
   });
+
+  finishEarlyBtn.addEventListener("click", finishEarly);
 
   document.addEventListener("keydown", function (e) {
     var typing = document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA");
