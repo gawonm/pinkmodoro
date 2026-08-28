@@ -888,7 +888,7 @@
     <div class="brand">
       <span class="eyebrow">FOCUS</span>
       <h1>PINKMODORO</h1>
-      <p class="tagline">50분 동안 차분히 집중해요</p>
+      <p class="tagline" id="tagline">50분 동안 차분히 집중해요</p>
     </div>
     <div class="topbar-actions">
       <div class="today-pill" id="todayPill" title="오늘 완료한 집중 세션">
@@ -1024,6 +1024,16 @@
             <span class="switch-track"></span>
           </label>
         </div>
+        <div class="row">
+          <div>
+            <div class="row-label">다이얼 소리</div>
+            <div class="row-sub">시간을 돌릴 때 도르륵 소리가 나요</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-key="dialSoundOn" checked />
+            <span class="switch-track"></span>
+          </label>
+        </div>
       </div>
 
       <hr class="div" />
@@ -1084,7 +1094,8 @@
     autoStartBreak: false,
     autoStartFocus: false,
     soundOn: true,
-    notifyOn: false
+    notifyOn: false,
+    dialSoundOn: true
   };
 
   var STEP_LIMITS = {
@@ -1451,6 +1462,7 @@
 
   var timeDisplay = document.getElementById("timeDisplay");
   var modePill = document.getElementById("modePill");
+  var tagline = document.getElementById("tagline");
   var startBtn = document.getElementById("startBtn");
   var resetBtn = document.getElementById("resetBtn");
   var skipBtn = document.getElementById("skipBtn");
@@ -1721,6 +1733,7 @@
   function render() {
     timeDisplay.textContent = formatTime(Math.max(0, state.remaining));
     modePill.textContent = PHASE_LABEL[state.phase];
+    tagline.textContent = settings.focusMin + "분 동안 차분히 집중해요";
     body.setAttribute("data-phase", state.phase);
     startBtn.textContent = state.running ? "일시정지" : (state.remaining < state.total ? "계속" : "시작");
     var showFinishEarly = state.phase === "focus" && (state.running || state.remaining < state.total);
@@ -1774,6 +1787,29 @@
       osc.start(start);
       osc.stop(start + 0.95);
     });
+  }
+  function playTick() {
+    if (!settings.dialSoundOn || !audioCtx) return;
+    var now = audioCtx.currentTime;
+    var bufferSize = Math.floor(audioCtx.sampleRate * 0.03);
+    var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+    }
+    var noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    var filter = audioCtx.createBiquadFilter();
+    filter.type = "highpass";
+    filter.frequency.value = 2500;
+    var gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+    noise.start(now);
+    noise.stop(now + 0.03);
   }
 
   function notify(title, bodyText) {
@@ -1975,11 +2011,14 @@
   }
 
   var dragging = false;
+  var lastDialMinutes = null;
   function canDrag() { return !state.running; }
 
   function onPointerDown(e) {
     if (!canDrag()) return;
+    ensureAudio();
     dragging = true;
+    lastDialMinutes = Math.round(state.total / 60);
     dialWrap.classList.add("dragging");
     dragHit.setPointerCapture && dragHit.setPointerCapture(e.pointerId);
     onPointerMove(e);
@@ -1987,6 +2026,10 @@
   function onPointerMove(e) {
     if (!dragging) return;
     var minutes = angleToMinutes(e.clientX, e.clientY);
+    if (minutes !== lastDialMinutes) {
+      playTick();
+      lastDialMinutes = minutes;
+    }
     state.total = minutes * 60;
     state.remaining = minutes * 60;
     render();
@@ -2011,6 +2054,8 @@
       return;
     }
     e.preventDefault();
+    ensureAudio();
+    playTick();
     state.total = minutes * 60;
     state.remaining = minutes * 60;
     render();
