@@ -1,4 +1,4 @@
-const CACHE = "pinkmodoro-v1";
+const CACHE = "pinkmodoro-v2";
 const APP_SHELL = ["./", "./index.html", "./pomodoro-timer.html"];
 
 self.addEventListener("install", (event) => {
@@ -19,18 +19,17 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+  // network-first for the HTML shell so a new deploy is visible immediately,
+  // not one visit behind — offline/flaky-network users still get the cached copy.
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((response) => {
-          if (response && response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
