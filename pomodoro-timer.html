@@ -1812,8 +1812,17 @@
     noise.stop(now + 0.03);
   }
 
+  // When wrapped in the macOS menu bar app, a native handler named
+  // "pinkmodoroNative" is injected; route notifications through it since
+  // WKWebView's support for the web Notification API is unreliable.
+  var nativeBridge = (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.pinkmodoroNative) || null;
+
   function notify(title, bodyText) {
     if (!settings.notifyOn) return;
+    if (nativeBridge) {
+      try { nativeBridge.postMessage({ type: "notify", title: title, body: bodyText }); } catch (e) {}
+      return;
+    }
     if (typeof Notification === "undefined") return;
     if (Notification.permission === "granted") {
       try { new Notification(title, { body: bodyText }); } catch (e) {}
@@ -2103,6 +2112,10 @@
       saveSettings(settings);
       if (key === "notifyOn" && input.checked) {
         var notifySub = document.getElementById("notifySub");
+        if (nativeBridge) {
+          notifySub.textContent = "세션이 끝나면 알려드려요";
+          return;
+        }
         if (typeof Notification === "undefined" || !window.isSecureContext) {
           settings.notifyOn = false;
           input.checked = false;
