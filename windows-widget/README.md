@@ -2,25 +2,34 @@
 
 작업표시줄 트레이(시계 옆)에 상주하면서, 아이콘을 클릭하면 핑크모도로 전체 화면이 창으로 열리는 앱입니다. 창을 닫아도 종료되지 않고 트레이로 숨겨지고, 트레이 메뉴에서 "열기/숨기기"로 토글하거나 "종료"로 완전히 끌 수 있습니다. 세션 종료 알림은 Windows 알림(풍선 도움말)으로 직접 뜨도록 연결되어 있습니다.
 
-이 폴더는 Visual Studio에서 빌드해야 실행 파일(.exe)이 됩니다. 아래 순서대로 하면 15분 안에 끝나요.
+이 폴더는 빌드해야 실행 파일(.exe)이 됩니다. Visual Studio 없이 **VS Code + .NET SDK**로도 똑같이 빌드/실행/디버깅할 수 있어요 — 아래 순서대로 하면 15분 안에 끝나요.
 
 ---
 
 ## 0. 준비물 (처음 한 번만)
 
-- [ ] [Visual Studio Community](https://visualstudio.microsoft.com/) 설치 (무료)
-- [ ] 설치 중 워크로드 선택 화면에서 **".NET 데스크톱 개발"** 체크 (WPF 빌드에 필요)
+- [ ] [.NET 8 SDK](https://dotnet.microsoft.com/download) 설치 (Visual Studio 없이 컴파일하는 핵심 도구)
+- [ ] [VS Code](https://code.visualstudio.com/) 설치
+- [ ] VS Code 확장 탭에서 **C# Dev Kit** 설치 (IntelliSense + 디버거 제공, Microsoft 공식 확장)
 - [ ] Windows 11이면 보통 기본 포함되어 있지만, 안 될 경우를 대비해 [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) 설치해두기
 
 ## 1. 프로젝트 열기
 
 - [ ] GitHub에서 이 저장소를 ZIP으로 받거나 `git clone`
-- [ ] `windows-widget` 폴더 안의 **`PinkmodoroWidget.csproj`** 파일을 더블클릭 (Visual Studio가 자동으로 열림)
-- [ ] 처음 열면 Visual Studio가 NuGet 패키지(Microsoft.Web.WebView2)를 자동으로 복원함 — 잠깐 기다리기
+- [ ] VS Code에서 **File → Open Folder** → `windows-widget` 폴더 선택
+- [ ] 처음 열면 하단에 "Required assets to build and debug are missing" 알림이 뜰 수 있음 → **Yes** 클릭 (`.vscode` 설정은 이미 포함되어 있어서 안 떠도 정상)
+- [ ] VS Code 터미널(**Ctrl+`**)에서 아래 명령으로 NuGet 패키지 받기:
+  ```
+  dotnet restore
+  ```
 
 ## 2. 빌드 & 실행
 
-- [ ] 상단 초록색 재생 버튼(▶ PinkmodoroWidget) 클릭 또는 **F5**
+- [ ] **F5** 누르기 (왼쪽 Run and Debug 탭에서 "핑크모도로 위젯 실행" 선택 후 재생 버튼도 가능)
+- [ ] 또는 터미널에서 직접:
+  ```
+  dotnet run
+  ```
 - [ ] 창이 뜨고 핑크모도로 화면이 로드되면 성공
 - [ ] 작업표시줄 오른쪽 트레이 아이콘(숨겨진 아이콘 화살표 눌러서 확인)에 토마토 아이콘이 보이는지 확인
 
@@ -35,7 +44,7 @@
 
 ## 배포용 실행 파일 만들기 (선택)
 
-Visual Studio 없이 더블클릭으로 바로 실행되는 단일 .exe가 필요하면:
+더블클릭으로 바로 실행되는 단일 .exe가 필요하면 터미널에서:
 
 ```
 dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
