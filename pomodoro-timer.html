@@ -1812,10 +1812,15 @@
     noise.stop(now + 0.03);
   }
 
-  // When wrapped in the macOS menu bar app, a native handler named
-  // "pinkmodoroNative" is injected; route notifications through it since
-  // WKWebView's support for the web Notification API is unreliable.
-  var nativeBridge = (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.pinkmodoroNative) || null;
+  // When wrapped in a native widget shell, a bridge is injected to deliver
+  // notifications through the OS's own notification center instead of the
+  // web Notification API, which WKWebView (macOS) and some WebView2
+  // (Windows) hosts support unreliably.
+  //   - macOS menu bar app: window.webkit.messageHandlers.pinkmodoroNative
+  //   - Windows tray app (WebView2): window.chrome.webview
+  var nativeBridge = (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.pinkmodoroNative) ||
+    (window.chrome && window.chrome.webview) ||
+    null;
 
   function notify(title, bodyText) {
     if (!settings.notifyOn) return;
