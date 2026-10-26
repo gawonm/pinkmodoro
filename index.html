@@ -1743,6 +1743,9 @@
     ratio = Math.max(0, Math.min(1, ratio));
     wedge.setAttribute("d", wedgePath(ratio));
     updateFavicon(ratio);
+    if (nativeBridge) {
+      try { nativeBridge.postMessage({ type: "tray", ratio: ratio, phase: state.phase, running: state.running }); } catch (e) {}
+    }
     dialWrap.classList.toggle("ending-soon", state.running && state.remaining > 0 && state.remaining <= 120);
     dragHit.setAttribute("aria-valuenow", Math.round(state.total / 60));
     todayCount.textContent = log.sessions;
