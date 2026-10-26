@@ -26,6 +26,19 @@ public partial class MainWindow : Window
         await webView.EnsureCoreWebView2Async();
         webView.CoreWebView2.Navigate(SiteUrl);
         webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
+        webView.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
+    }
+
+    // Mirrors the page's document.title (e.g. "24:59 · 집중" while running, or
+    // "핑크모도로" when idle) into the tray icon's tooltip text. Windows shows
+    // this automatically on hover and hides it when the pointer leaves, so no
+    // custom hover-tracking code is needed.
+    private void CoreWebView2_DocumentTitleChanged(object? sender, object e)
+    {
+        if (_trayIcon == null) return;
+        var title = webView.CoreWebView2.DocumentTitle;
+        if (string.IsNullOrEmpty(title)) return;
+        _trayIcon.Text = title.Length > 60 ? title[..60] : title;
     }
 
     // Receives postMessage calls from the web app's JS (window.chrome.webview.postMessage)
