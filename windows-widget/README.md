@@ -46,13 +46,15 @@
 
 ## 배포용 실행 파일 만들기 (선택)
 
-더블클릭으로 바로 실행되는 단일 .exe가 필요하면 터미널에서:
+Visual Studio나 VS Code 없이 더블클릭으로 바로 실행되게 만들려면 터미널에서:
 
 ```
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+dotnet publish -c Release -r win-x64 --self-contained true
 ```
 
-`windows-widget` 폴더에서 이 명령을 실행하면 `bin\Release\net8.0-windows\win-x64\publish\` 안에 `PinkmodoroWidget.exe`가 생깁니다.
+`windows-widget` 폴더에서 이 명령을 실행하면 `bin\Release\net8.0-windows\win-x64\publish\` 폴더가 생기고, 그 안의 `PinkmodoroWidget.exe`를 더블클릭하면 됩니다. 이 폴더 전체(exe + 옆에 있는 여러 dll)를 함께 옮기면 다른 컴퓨터에서도 .NET 설치 없이 바로 실행돼요.
+
+`-p:PublishSingleFile=true`를 추가해서 파일 하나로 뭉치지 마세요 — WebView2와 함께 쓰면 시작하자마자 조용히 죽는(`0xc000041d`) 알려진 호환성 문제가 있습니다.
 
 ## 참고
 
