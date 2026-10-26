@@ -10,9 +10,11 @@ struct PinkmodoroWidgetApp: App {
     }
 
     var body: some Scene {
-        MenuBarExtra(bridge.menuBarLabel, systemImage: "timer") {
+        MenuBarExtra {
             PinkmodoroPopoverView()
                 .environmentObject(bridge)
+        } label: {
+            MenuBarLabelView(bridge: bridge)
         }
         .menuBarExtraStyle(.window)
     }
