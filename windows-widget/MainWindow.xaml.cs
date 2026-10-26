@@ -123,7 +123,7 @@ public partial class MainWindow : Window
         // be destroyed manually once the new one is assigned - otherwise this leaks a GDI
         // handle on every tick while the timer runs.
         var newHandle = bitmap.GetHicon();
-        _trayIcon.Icon = Icon.FromHandle(newHandle);
+        _trayIcon.Icon = System.Drawing.Icon.FromHandle(newHandle);
         if (_currentTrayIconHandle != IntPtr.Zero)
         {
             DestroyIcon(_currentTrayIconHandle);
