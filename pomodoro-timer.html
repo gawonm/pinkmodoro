@@ -1271,13 +1271,33 @@
     renderNotes();
   });
 
+  // A popover anchored with `right: 0` can still spill past the left edge of
+  // the window when the anchor button sits far enough left - clamp it back
+  // on-screen after it becomes visible (host-specific rendering, like
+  // WebView2 embedded in a native app, can shift this math in ways that
+  // don't show up in an ordinary browser).
+  function clampPopoverToViewport(popoverEl, anchorEl) {
+    requestAnimationFrame(function () {
+      var margin = 8;
+      var pRect = popoverEl.getBoundingClientRect();
+      if (pRect.left < margin) {
+        var aRect = anchorEl.getBoundingClientRect();
+        popoverEl.style.left = (margin - aRect.left) + "px";
+        popoverEl.style.right = "auto";
+      }
+    });
+  }
+
   function openNotes() {
     closeChecklist();
     pruneExpiredNotes();
     renderNotes();
     notesPopover.hidden = false;
+    notesPopover.style.left = "";
+    notesPopover.style.right = "";
     notesToggle.setAttribute("aria-expanded", "true");
     notesInput.focus();
+    clampPopoverToViewport(notesPopover, notesAnchor);
   }
   function closeNotes() {
     notesPopover.hidden = true;
@@ -1411,8 +1431,11 @@
     checklist = loadChecklist();
     renderChecklist();
     checklistPopover.hidden = false;
+    checklistPopover.style.left = "";
+    checklistPopover.style.right = "";
     checklistToggle.setAttribute("aria-expanded", "true");
     checklistInput.focus();
+    clampPopoverToViewport(checklistPopover, checklistAnchor);
   }
   function closeChecklist() {
     checklistPopover.hidden = true;
