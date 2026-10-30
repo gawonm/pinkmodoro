@@ -42,6 +42,10 @@ public partial class MainWindow : Window
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
         await webView.EnsureCoreWebView2Async();
+        // WebView2 persists zoom level per-origin across launches (e.g. from a
+        // stray Ctrl+scroll). Force 100% so the page's own CSS width always
+        // matches the window's actual size instead of a stale remembered zoom.
+        webView.ZoomFactor = 1.0;
         webView.CoreWebView2.Navigate(SiteUrl);
         webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
         webView.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
