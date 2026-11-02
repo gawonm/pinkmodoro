@@ -46,7 +46,10 @@ public partial class MainWindow : Window
         // stray Ctrl+scroll). Force 100% so the page's own CSS width always
         // matches the window's actual size instead of a stale remembered zoom.
         webView.ZoomFactor = 1.0;
-        webView.CoreWebView2.Navigate(SiteUrl);
+        // WebView2 keeps its own persistent HTTP cache across launches, so a
+        // bare URL can silently reuse a stale copy of the page from before the
+        // last site update. A changing query string forces a real fetch.
+        webView.CoreWebView2.Navigate(SiteUrl + "?v=" + DateTimeOffset.UtcNow.ToUnixTimeSeconds());
         webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
         webView.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
     }
