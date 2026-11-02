@@ -217,6 +217,31 @@
     color: var(--accent);
   }
 
+  .goal-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-16px);
+    opacity: 0;
+    pointer-events: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    box-shadow: 0 16px 32px -12px var(--shadow);
+    z-index: 50;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+  }
+  .goal-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
   .today-pill-label {
     font-size: 12px;
     font-weight: 500;
@@ -887,6 +912,7 @@
 </style>
 
 <div class="app" id="app">
+  <div class="goal-toast" id="goalToast"></div>
   <header class="topbar">
     <div class="brand">
       <span class="eyebrow">FOCUS</span>
@@ -1012,6 +1038,20 @@
       <hr class="div" />
 
       <div class="field-group">
+        <h3>오늘의 목표</h3>
+        <div class="row">
+          <span class="row-label">목표 세션 수</span>
+          <div class="stepper" data-key="dailyGoal" data-min="1" data-max="12" data-step="1">
+            <button type="button" data-dir="-1" aria-label="줄이기">−</button>
+            <output>4</output>
+            <button type="button" data-dir="1" aria-label="늘리기">+</button>
+          </div>
+        </div>
+      </div>
+
+      <hr class="div" />
+
+      <div class="field-group">
         <h3>자동화</h3>
         <div class="row">
           <span class="row-label">휴식 자동 시작</span>
@@ -1071,6 +1111,8 @@
           <dd id="logSessions">0회</dd>
           <dt>총 집중 시간</dt>
           <dd id="logMinutes">0분</dd>
+          <dt>오늘 목표</dt>
+          <dd id="logGoalProgress">0 / 4</dd>
         </dl>
         <ol class="session-log" id="sessionLog"></ol>
         <p class="session-log-empty" id="sessionLogEmpty">아직 완료한 세션이 없어요</p>
@@ -1094,6 +1136,7 @@
     shortMin: 10,
     longMin: 20,
     sessionsUntilLong: 4,
+    dailyGoal: 4,
     autoStartBreak: false,
     autoStartFocus: false,
     soundOn: true,
@@ -1105,7 +1148,8 @@
     focusMin: { min: 5, max: 90, step: 5 },
     shortMin: { min: 1, max: 30, step: 1 },
     longMin: { min: 5, max: 60, step: 5 },
-    sessionsUntilLong: { min: 2, max: 8, step: 1 }
+    sessionsUntilLong: { min: 2, max: 8, step: 1 },
+    dailyGoal: { min: 1, max: 12, step: 1 }
   };
 
   function safeStorage() {
@@ -1502,7 +1546,28 @@
     void todayPill.offsetWidth;
     todayPill.classList.add("celebrate");
   }
+
+  var goalToast = document.getElementById("goalToast");
+  var goalToastTimer = null;
+  function showGoalToast(text) {
+    goalToast.textContent = text;
+    goalToast.classList.add("show");
+    if (goalToastTimer) clearTimeout(goalToastTimer);
+    goalToastTimer = setTimeout(function () {
+      goalToast.classList.remove("show");
+    }, 4000);
+  }
+  function announceGoalProgress() {
+    var remaining = settings.dailyGoal - log.sessions;
+    if (remaining > 0) {
+      showGoalToast("오늘 목표까지 " + remaining + "개 남았어요, 화이팅!");
+    } else if (log.sessions === settings.dailyGoal) {
+      showGoalToast("오늘 목표 " + settings.dailyGoal + "개를 다 채웠어요!");
+    }
+  }
+
   var logSessions = document.getElementById("logSessions");
+  var logGoalProgress = document.getElementById("logGoalProgress");
   var logMinutes = document.getElementById("logMinutes");
   var sessionLog = document.getElementById("sessionLog");
   var sessionLogEmpty = document.getElementById("sessionLogEmpty");
@@ -1777,6 +1842,7 @@
     todayCount.textContent = log.sessions;
     logSessions.textContent = log.sessions + "회";
     logMinutes.textContent = log.minutes + "분";
+    logGoalProgress.textContent = log.sessions + " / " + settings.dailyGoal;
     renderSessionTrack();
     updateStatusSticker();
 
@@ -1942,6 +2008,7 @@
       clearTaskInput();
       notify("집중 세션 완료", "잘하셨어요! 이제 휴식할 시간이에요.");
       celebrateTodayPill();
+      announceGoalProgress();
     } else {
       notify("휴식 종료", "다시 집중할 준비가 되셨나요?");
     }
@@ -1975,6 +2042,7 @@
     clearTaskInput();
     notify("집중 세션 완료", "예정보다 일찍 끝냈어요! 잘하셨어요.");
     celebrateTodayPill();
+    announceGoalProgress();
     var next = nextPhase();
     setPhase(next, { autoStart: settings.autoStartBreak });
   }
