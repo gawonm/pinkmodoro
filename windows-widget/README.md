@@ -58,6 +58,10 @@ dotnet publish -c Release -r win-x64 --self-contained true
 
 ## 참고
 
+- **코드를 고쳤는데 반영이 안 될 때**: 지금 실행 중인 exe가 어디 있는지 먼저 확인하세요.
+  - `dotnet build`나 `dotnet run`으로 테스트할 땐 `bin\Debug\net8.0-windows\PinkmodoroWidget.exe`가 쓰입니다.
+  - `bin\...\publish\` 폴더 안의 exe는 **`dotnet publish`를 다시 돌려야만** 갱신됩니다. `dotnet build`/`dotnet run`만으론 그 exe는 그대로예요.
+  - 즉 배포용으로 한 번 `publish`해서 바로가기를 만들어뒀다면, 코드를 고친 뒤에도 그 바로가기로 실행하면 계속 예전 버전이 뜹니다 — 이때 "고쳤는데 그대로"처럼 보이는 게 실제로는 옛날 exe를 실행하고 있는 경우가 많습니다.
 - **로그인 시 자동 실행**: `Win+R` → `shell:startup` 입력 → 열리는 폴더에 `PinkmodoroWidget.exe`의 바로가기를 넣으면 Windows 부팅 시 자동 실행됩니다.
 - **다른 저장소 URL 사용**: `MainWindow.xaml.cs`의 `SiteUrl` 상수를 포크한 GitHub Pages 주소로 바꾸면 됩니다.
 - **WebView2 런타임 오류가 뜨면**: [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/)을 설치하세요. Windows 11은 대부분 기본 포함되어 있습니다.
