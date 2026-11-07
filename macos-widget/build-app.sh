@@ -64,6 +64,9 @@ cat > "$APP_DIR/Contents/Info.plist" <<PLIST
 </plist>
 PLIST
 
+echo "==> stripping extended attributes (codesign rejects resource forks/Finder metadata)"
+xattr -cr "$APP_DIR"
+
 echo "==> ad-hoc codesign (needed for notifications to work reliably)"
 codesign --force --deep --sign - "$APP_DIR"
 
