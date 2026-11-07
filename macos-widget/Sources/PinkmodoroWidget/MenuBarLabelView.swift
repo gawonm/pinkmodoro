@@ -1,11 +1,11 @@
-import SwiftUI
 import AppKit
 
 /// Draws the menu bar icon as a Rose Quartz circle with a Serenity-colored
 /// arc for the time remaining in the current session - the same two-tone
-/// "shrinking time" idea as the page's own progress wedge/favicon, just
-/// rendered natively instead of loading a static image (which never showed
-/// up reliably as a MenuBarExtra label image in this project).
+/// "shrinking time" idea as the page's own progress wedge/favicon. Used by
+/// AppDelegate to set NSStatusItem.button.image directly (see
+/// PinkmodoroWidgetApp.swift) rather than through a SwiftUI MenuBarExtra
+/// label, which never reliably redrew for a changing image in this project.
 enum PinkmodoroIcon {
     static let roseQuartz = NSColor(calibratedRed: 0xc0 / 255.0, green: 0x7b / 255.0, blue: 0x82 / 255.0, alpha: 1)
     static let serenity = NSColor(calibratedRed: 0x6e / 255.0, green: 0x8f / 255.0, blue: 0xbe / 255.0, alpha: 1)
@@ -39,23 +39,5 @@ enum PinkmodoroIcon {
         image.unlockFocus()
         image.isTemplate = false // keep the two colors instead of being masked to monochrome
         return image
-    }
-}
-
-/// The menu bar's status item content: the drawn progress icon plus the live
-/// countdown text, always shown together (hover-to-reveal was tried but
-/// SwiftUI's .onHover isn't reliably delivered on NSStatusItem-hosted
-/// content, so this always-visible form is the dependable choice).
-struct MenuBarLabelView: View {
-    @ObservedObject var bridge: TimerBridge
-
-    var body: some View {
-        HStack(spacing: 4) {
-            Image(nsImage: PinkmodoroIcon.draw(ratio: bridge.ratio, running: bridge.running))
-            Text(bridge.menuBarLabel)
-                .font(.system(size: 13))
-                .lineLimit(1)
-                .fixedSize()
-        }
     }
 }
