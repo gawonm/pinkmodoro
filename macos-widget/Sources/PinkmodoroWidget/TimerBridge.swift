@@ -10,22 +10,38 @@ final class TimerBridge: NSObject, ObservableObject, WKScriptMessageHandler {
     /// Mirrors the web page's document.title (e.g. "24:59 · 집중" or "핑크모도로" when idle),
     /// shown as the menu bar label next to the timer icon.
     @Published var menuBarLabel: String = "핑크모도로"
+    /// Fraction of the current session remaining (1 = just started, 0 = done),
+    /// mirrored from the page's own postMessage({type:"tray", ratio, running})
+    /// so the menu bar icon can draw the same shrinking-time arc as the page's
+    /// own favicon, instead of a static image.
+    @Published var ratio: Double = 0
+    @Published var running: Bool = false
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard message.name == "pinkmodoroNative",
               let body = message.body as? [String: Any],
-              let type = body["type"] as? String, type == "notify" else { return }
+              let type = body["type"] as? String else { return }
 
-        let title = body["title"] as? String ?? "핑크모도로"
-        let text = body["body"] as? String ?? ""
+        switch type {
+        case "notify":
+            let title = body["title"] as? String ?? "핑크모도로"
+            let text = body["body"] as? String ?? ""
 
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = text
-        content.sound = .default
+            let content = UNMutableNotificationContent()
+            content.title = title
+            content.body = text
+            content.sound = .default
 
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
-        UNUserNotificationCenter.current().add(request)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(request)
+
+        case "tray":
+            ratio = (body["ratio"] as? Double) ?? 0
+            running = (body["running"] as? Bool) ?? false
+
+        default:
+            break
+        }
     }
 }
 

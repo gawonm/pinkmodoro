@@ -1,6 +1,48 @@
 import SwiftUI
+import AppKit
 
-/// The menu bar's status item content: SF Symbol icon plus the live
+/// Draws the menu bar icon as a Rose Quartz circle with a Serenity-colored
+/// arc for the time remaining in the current session - the same two-tone
+/// "shrinking time" idea as the page's own progress wedge/favicon, just
+/// rendered natively instead of loading a static image (which never showed
+/// up reliably as a MenuBarExtra label image in this project).
+enum PinkmodoroIcon {
+    static let roseQuartz = NSColor(calibratedRed: 0xc0 / 255.0, green: 0x7b / 255.0, blue: 0x82 / 255.0, alpha: 1)
+    static let serenity = NSColor(calibratedRed: 0x6e / 255.0, green: 0x8f / 255.0, blue: 0xbe / 255.0, alpha: 1)
+
+    static func draw(ratio: Double, running: Bool) -> NSImage {
+        let size = NSSize(width: 18, height: 18)
+        let image = NSImage(size: size)
+        image.lockFocus()
+
+        let rect = NSRect(x: 1, y: 1, width: size.width - 2, height: size.height - 2)
+        let alpha: CGFloat = running ? 1.0 : 0.55
+
+        roseQuartz.withAlphaComponent(alpha).setFill()
+        NSBezierPath(ovalIn: rect).fill()
+
+        let clamped = max(0, min(1, ratio))
+        if clamped > 0.001 {
+            let center = NSPoint(x: rect.midX, y: rect.midY)
+            let radius = rect.width / 2
+            let sweep = CGFloat(clamped * 360)
+            let path = NSBezierPath()
+            path.move(to: center)
+            // 90 = top (12 o'clock); sweeping clockwise as time elapses mirrors
+            // the page's own wedge, which shrinks the same way.
+            path.appendArc(withCenter: center, radius: radius, startAngle: 90, endAngle: 90 - sweep, clockwise: true)
+            path.close()
+            serenity.withAlphaComponent(alpha).setFill()
+            path.fill()
+        }
+
+        image.unlockFocus()
+        image.isTemplate = false // keep the two colors instead of being masked to monochrome
+        return image
+    }
+}
+
+/// The menu bar's status item content: the drawn progress icon plus the live
 /// countdown text, always shown together (hover-to-reveal was tried but
 /// SwiftUI's .onHover isn't reliably delivered on NSStatusItem-hosted
 /// content, so this always-visible form is the dependable choice).
@@ -9,7 +51,7 @@ struct MenuBarLabelView: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Image(systemName: "timer")
+            Image(nsImage: PinkmodoroIcon.draw(ratio: bridge.ratio, running: bridge.running))
             Text(bridge.menuBarLabel)
                 .font(.system(size: 13))
                 .lineLimit(1)

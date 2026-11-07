@@ -15,15 +15,12 @@ public partial class MainWindow : Window
     // Point this at your own GitHub Pages URL if you fork the repo under a different owner.
     private const string SiteUrl = "https://gawonm.github.io/pinkmodoro/";
 
-    // Mirrors the site's CSS phase accent colors (index.html's --c-focus/--c-short/--c-long)
-    // and track color (--line), so the tray pie matches the in-page progress wedge.
-    private static readonly Dictionary<string, Color> PhaseColors = new()
-    {
-        ["focus"] = Color.FromArgb(0xE0, 0xAE, 0xB2),
-        ["short"] = Color.FromArgb(0xA9, 0xC0, 0xE0),
-        ["long"] = Color.FromArgb(0xC3, 0xB3, 0xCA),
-    };
-    private static readonly Color TrackColor = Color.FromArgb(0xEC, 0xE3, 0xE6);
+    // Rose Quartz circle, Serenity arc for time remaining - the same two-tone
+    // "shrinking time" idea as the page's own progress wedge/favicon, using
+    // the stronger (--c-focus-strong / --c-short-strong) shades since the
+    // plain pastel tones wash out at actual tray icon size.
+    private static readonly Color RoseQuartz = Color.FromArgb(0xC0, 0x7B, 0x82);
+    private static readonly Color Serenity = Color.FromArgb(0x6E, 0x8F, 0xBE);
 
     private System.Windows.Forms.NotifyIcon? _trayIcon;
     private bool _isExiting;
@@ -106,7 +103,6 @@ public partial class MainWindow : Window
         if (_trayIcon == null) return;
 
         ratio = Math.Clamp(ratio, 0, 1);
-        var fillColor = PhaseColors.TryGetValue(phase, out var c) ? c : PhaseColors["focus"];
         var alpha = running ? 255 : 140;
 
         using var bitmap = new Bitmap(32, 32);
@@ -115,14 +111,14 @@ public partial class MainWindow : Window
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Clear(Color.Transparent);
 
-            using var trackBrush = new SolidBrush(Color.FromArgb(alpha, TrackColor));
-            g.FillEllipse(trackBrush, 1, 1, 30, 30);
+            using var baseBrush = new SolidBrush(Color.FromArgb(alpha, RoseQuartz));
+            g.FillEllipse(baseBrush, 1, 1, 30, 30);
 
             if (ratio > 0.001)
             {
-                using var fillBrush = new SolidBrush(Color.FromArgb(alpha, fillColor));
+                using var arcBrush = new SolidBrush(Color.FromArgb(alpha, Serenity));
                 var sweep = (float)(ratio * 360.0);
-                g.FillPie(fillBrush, 1, 1, 30, 30, -90, sweep);
+                g.FillPie(arcBrush, 1, 1, 30, 30, -90, sweep);
             }
         }
 
