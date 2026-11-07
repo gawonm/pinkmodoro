@@ -22,14 +22,15 @@ Rose Quartz/Serenity 색상의 뽀모도로 타이머. Time Timer 스타일 파�
 
 메뉴바(시계 옆)에 아이콘으로 상주하다가, 클릭하면 핑크모도로 화면이 드롭다운으로 열립니다. 세션이 끝나면 macOS 알림 센터로 바로 알려줍니다.
 
-- Xcode 프로젝트를 새로 만들고 `macos-widget/` 폴더의 Swift 파일들을 넣는 방식입니다 (빌드 결과물은 저장소에 포함하지 않음)
+- **Xcode 앱 없이도** 터미널 + Command Line Tools만으로 빌드/실행할 수 있습니다 (Swift Package Manager 사용)
 - 자세한 단계별 가이드: [`macos-widget/README.md`](macos-widget/README.md)
 
-빠른 순서:
-1. Xcode에서 macOS App 프로젝트 생성 (SwiftUI, 최소 배포 버전 macOS 13+)
-2. `macos-widget/`의 4개 `.swift` 파일을 프로젝트로 드래그
-3. Info 설정에서 `Application is agent (UIElement)` = YES로 Dock 아이콘 숨기기
-4. Cmd+R로 실행 → 메뉴바에 뜬 아이콘 클릭
+빠른 순서 (Xcode 없이):
+1. `xcode-select --install`로 Command Line Tools만 설치 (Xcode 앱 전체 설치 불필요)
+2. `cd macos-widget && swift run` — 바로 뜨는지 확인
+3. 평소에 쓸 거면 `./build-app.sh`로 `.app`까지 묶기 (알림이 안정적으로 뜸)
+
+Xcode GUI로 하고 싶다면 `macos-widget/README.md`의 "B. Xcode로 실행하기" 참고.
 
 ### Windows — 트레이 위젯
 
