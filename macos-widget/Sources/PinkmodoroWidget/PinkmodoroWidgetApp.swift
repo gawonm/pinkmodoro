@@ -49,6 +49,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 DispatchQueue.main.async { self?.refreshStatusItem() }
             }
             .store(in: &cancellables)
+
+        // The `Settings` scene below exists only because a SwiftUI App needs
+        // at least one Scene - with no WindowGroup, macOS can still show it
+        // automatically as if it were the app's main window on launch. This
+        // app has no real window (the popover above is its only UI), so
+        // close anything that shows up a moment after launch.
+        DispatchQueue.main.async {
+            NSApp.windows.forEach { $0.close() }
+        }
     }
 
     private func refreshStatusItem() {
