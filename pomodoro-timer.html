@@ -906,6 +906,376 @@
   }
   .link-btn:hover { color: var(--accent-strong); }
 
+  /* ---------- Focus statistics ---------- */
+  .stats-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: rgba(40, 30, 40, 0.32);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .stats-overlay[hidden] { display: none; }
+  .stats-sheet {
+    position: relative;
+    width: min(600px, 100%);
+    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    box-shadow: 0 30px 80px -30px var(--shadow);
+    padding: 22px 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .stats-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .stats-head h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .stats-close {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+    line-height: 1;
+  }
+  .stats-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 16px 16px 18px;
+  }
+  .stats-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  .stats-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .stats-tile {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 12px 12px 13px;
+    min-width: 0;
+  }
+  .stats-tile-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .stats-tile-value {
+    margin-top: 6px;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .stats-tile-sub {
+    margin-top: 2px;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .stats-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .stats-seg {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--c-focus-tint);
+  }
+  .stats-seg button {
+    border: none;
+    background: none;
+    padding: 5px 13px;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .stats-seg button[aria-pressed="true"] {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+  .stats-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .stats-nav-label {
+    min-width: 128px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-nav button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .stats-nav button:disabled { opacity: 0.35; cursor: default; }
+
+  .stats-summary {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .stats-summary-value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-summary-sub {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .stats-delta { font-weight: 600; }
+  .stats-delta.up { color: var(--c-focus-strong); }
+
+  .stats-chart {
+    position: relative;
+    height: 150px;
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .stats-chart-avg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed var(--ink-faint);
+    pointer-events: none;
+  }
+  .stats-chart-max {
+    position: absolute;
+    top: -16px;
+    left: 0;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-bar {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+  }
+  .stats-bar:disabled { cursor: default; }
+  .stats-bar-fill {
+    width: 100%;
+    max-width: 34px;
+    margin: 0 auto;
+    min-height: 0;
+    border-radius: 5px 5px 0 0;
+    background: var(--c-focus);
+    transition: background 0.15s ease;
+  }
+  .stats-bar.is-today .stats-bar-fill { background: var(--c-focus-strong); }
+  .stats-bar:hover:not(:disabled) .stats-bar-fill,
+  .stats-bar[aria-pressed="true"] .stats-bar-fill { background: var(--wedge-ink); }
+  :root[data-theme="dark"] .stats-bar:hover:not(:disabled) .stats-bar-fill,
+  :root[data-theme="dark"] .stats-bar[aria-pressed="true"] .stats-bar-fill { background: var(--ink); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .stats-bar:hover:not(:disabled) .stats-bar-fill,
+    :root:not([data-theme="light"]) .stats-bar[aria-pressed="true"] .stats-bar-fill { background: var(--ink); }
+  }
+  .stats-axis {
+    display: flex;
+    gap: 3px;
+    margin-top: 6px;
+  }
+  .stats-axis span {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .stats-axis span.is-today { color: var(--c-focus-strong); font-weight: 700; }
+
+  .stats-detail {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--c-focus-tint);
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .stats-detail-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-weight: 600;
+  }
+  .stats-detail-head span:last-child {
+    color: var(--c-focus-strong);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .stats-detail ol {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stats-detail li {
+    display: flex;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .stats-detail li .t { font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .stats-detail li .n { flex: 1; min-width: 0; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .stats-detail li .m { flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  .stats-tasks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .stats-task-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  .stats-task-name {
+    min-width: 0;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .stats-task-name.is-muted { color: var(--ink-soft); }
+  .stats-task-val {
+    flex-shrink: 0;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-task-track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--c-focus-tint);
+    overflow: hidden;
+  }
+  .stats-task-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--c-focus);
+  }
+
+  .stats-hours {
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .stats-hour {
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--c-focus);
+  }
+  .stats-hour.is-peak { background: var(--c-focus-strong); }
+  .stats-hours-axis {
+    position: relative;
+    height: 14px;
+    margin-top: 5px;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+  .stats-hours-axis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+  .stats-hours-axis span:first-child { transform: none; }
+  .stats-hours-axis span:last-child { transform: translateX(-100%); }
+  .stats-note {
+    margin: 10px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .stats-note b { color: var(--ink); font-weight: 600; }
+  .stats-empty {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 560px) {
+    .stats-overlay { align-items: flex-end; padding: 0; }
+    .stats-sheet {
+      border-radius: 24px 24px 0 0;
+      max-height: 92vh;
+      max-height: 92dvh;
+      padding: 18px 16px 24px;
+    }
+    .stats-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats-nav-label { min-width: 104px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
@@ -954,6 +1324,9 @@
           <p class="notes-empty" id="checklistEmpty">오늘 할 일을 추가해보세요</p>
         </div>
       </div>
+      <button class="icon-btn" id="statsToggle" aria-label="집중 통계" aria-haspopup="dialog" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16" /><path d="M7 16v-5" /><path d="M12 16V6" /><path d="M17 16v-8" /></svg>
+      </button>
       <button class="icon-btn" id="themeToggle" aria-label="테마 전환" type="button">
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
@@ -1123,6 +1496,52 @@
   </main>
 </div>
 
+  <div class="stats-overlay" id="statsOverlay" hidden>
+    <div class="stats-sheet" role="dialog" aria-modal="true" aria-labelledby="statsTitle" tabindex="-1" id="statsSheet">
+      <div class="stats-head">
+        <h2 id="statsTitle">집중 통계</h2>
+        <button class="icon-btn stats-close" id="statsClose" aria-label="닫기" type="button">×</button>
+      </div>
+
+      <div class="stats-tiles" id="statsTiles"></div>
+
+      <section class="stats-card">
+        <div class="stats-toolbar">
+          <div class="stats-seg" role="group" aria-label="기간">
+            <button type="button" data-range="week" aria-pressed="true">주</button>
+            <button type="button" data-range="month" aria-pressed="false">월</button>
+            <button type="button" data-range="year" aria-pressed="false">년</button>
+          </div>
+          <div class="stats-nav">
+            <button type="button" id="statsPrev" aria-label="이전 기간">‹</button>
+            <span class="stats-nav-label" id="statsRangeLabel"></span>
+            <button type="button" id="statsNext" aria-label="다음 기간">›</button>
+          </div>
+        </div>
+        <div class="stats-summary">
+          <span class="stats-summary-value" id="statsRangeTotal">0분</span>
+          <span class="stats-summary-sub" id="statsRangeSub"></span>
+        </div>
+        <div class="stats-chart" id="statsChart"></div>
+        <div class="stats-axis" id="statsAxis"></div>
+        <div class="stats-detail" id="statsDetail" hidden></div>
+      </section>
+
+      <section class="stats-card">
+        <h3>할 일별 집중 시간</h3>
+        <ul class="stats-tasks" id="statsTasks"></ul>
+        <p class="stats-empty" id="statsTasksEmpty" hidden>이 기간에는 집중 기록이 없어요</p>
+      </section>
+
+      <section class="stats-card">
+        <h3>시간대별 집중</h3>
+        <div class="stats-hours" id="statsHours"></div>
+        <div class="stats-hours-axis"><span style="left:0">0시</span><span style="left:25%">6시</span><span style="left:50%">12시</span><span style="left:75%">18시</span><span style="left:100%">24시</span></div>
+        <p class="stats-note" id="statsHoursNote"></p>
+      </section>
+    </div>
+  </div>
+
 <script>
 (function () {
   "use strict";
@@ -1193,7 +1612,11 @@
       var raw = storage.getItem(STORAGE_LOG);
       if (!raw) return empty;
       var parsed = JSON.parse(raw);
-      if (parsed.date !== todayKey()) return empty;
+      if (parsed.date !== todayKey()) {
+        // a new day: keep yesterday's numbers in the stats history before starting fresh
+        archiveLog(parsed);
+        return empty;
+      }
       if (!Array.isArray(parsed.entries)) parsed.entries = [];
       return parsed;
     } catch (e) {
@@ -1204,10 +1627,89 @@
   function saveLog(l) {
     if (!storage) return;
     try { storage.setItem(STORAGE_LOG, JSON.stringify(l)); } catch (e) {}
+    archiveLog(l);
+  }
+
+  // ---------- History (for focus statistics) ----------
+  // The daily log above only ever holds today; this keeps a compact copy of
+  // every day so the stats view can look back across weeks/months/years.
+  // Shape: { "2026-11-13": { sessions, minutes, entries: [{ time, task, minutes, early?, skipped?, progress? }] } }
+  var STORAGE_HISTORY = "pomodoro_v1_history";
+  var HISTORY_MAX_DAYS = 800;
+
+  function pad2(n) { return n < 10 ? "0" + n : "" + n; }
+
+  function dayKeyOf(d) {
+    return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+  }
+
+  // todayKey() isn't zero-padded ("2026-11-3"); history keys are, so they sort.
+  function normalizeDayKey(k) {
+    var p = String(k || "").split("-");
+    if (p.length !== 3) return null;
+    var y = +p[0], m = +p[1], d = +p[2];
+    if (!y || !m || !d) return null;
+    return y + "-" + pad2(m) + "-" + pad2(d);
+  }
+
+  function loadHistory() {
+    if (!storage) return {};
+    try {
+      var raw = storage.getItem(STORAGE_HISTORY);
+      var parsed = raw ? JSON.parse(raw) : {};
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  var history = loadHistory();
+
+  function saveHistory() {
+    var keys = Object.keys(history);
+    if (keys.length > HISTORY_MAX_DAYS) {
+      keys.sort();
+      keys.slice(0, keys.length - HISTORY_MAX_DAYS).forEach(function (k) { delete history[k]; });
+    }
+    if (!storage) return;
+    try { storage.setItem(STORAGE_HISTORY, JSON.stringify(history)); } catch (e) {}
+  }
+
+  function archiveLog(l) {
+    if (!l) return;
+    var key = normalizeDayKey(l.date);
+    if (!key) return;
+    var entries = Array.isArray(l.entries) ? l.entries : [];
+    if (!l.sessions && !l.minutes && !entries.length) {
+      if (history[key]) { delete history[key]; saveHistory(); }
+      return;
+    }
+    history[key] = {
+      sessions: l.sessions || 0,
+      minutes: l.minutes || 0,
+      entries: entries.map(function (e) {
+        var o = { time: e.time || "", task: e.task || "", minutes: e.minutes || 0 };
+        if (e.early) o.early = true;
+        if (e.skipped) o.skipped = true;
+        if (e.progress) o.progress = e.progress;
+        return o;
+      })
+    };
+    saveHistory();
   }
 
   var settings = loadSettings();
   var log = loadLog();
+  archiveLog(log);
+
+  // The app can stay open past midnight; without this the next session
+  // would be added on top of yesterday's totals.
+  function ensureLogIsToday() {
+    if (log.date === todayKey()) return;
+    archiveLog(log);
+    log = { date: todayKey(), sessions: 0, minutes: 0, entries: [] };
+    saveLog(log);
+  }
 
   // ---------- Theme ----------
   var themeToggle = document.getElementById("themeToggle");
@@ -1517,6 +2019,402 @@
   pruneExpiredNotes();
   renderNotes();
   renderChecklist();
+
+  // ---------- Focus statistics ----------
+  var statsToggle = document.getElementById("statsToggle");
+  var statsOverlay = document.getElementById("statsOverlay");
+  var statsSheet = document.getElementById("statsSheet");
+  var statsClose = document.getElementById("statsClose");
+  var statsTiles = document.getElementById("statsTiles");
+  var statsPrev = document.getElementById("statsPrev");
+  var statsNext = document.getElementById("statsNext");
+  var statsRangeLabel = document.getElementById("statsRangeLabel");
+  var statsRangeTotal = document.getElementById("statsRangeTotal");
+  var statsRangeSub = document.getElementById("statsRangeSub");
+  var statsChart = document.getElementById("statsChart");
+  var statsAxis = document.getElementById("statsAxis");
+  var statsDetail = document.getElementById("statsDetail");
+  var statsTasks = document.getElementById("statsTasks");
+  var statsTasksEmpty = document.getElementById("statsTasksEmpty");
+  var statsHours = document.getElementById("statsHours");
+  var statsHoursNote = document.getElementById("statsHoursNote");
+  var statsSegButtons = statsOverlay.querySelectorAll(".stats-seg button");
+
+  var WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+  var statsView = { range: "week", anchor: new Date(), selected: null };
+  var statsReturnFocus = null;
+
+  function fmtDur(min) {
+    min = Math.round(min || 0);
+    if (min < 60) return min + "분";
+    var h = Math.floor(min / 60);
+    var m = min % 60;
+    return h + "시간" + (m ? " " + m + "분" : "");
+  }
+
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function startOfWeek(d) { return addDays(startOfDay(d), -((d.getDay() + 6) % 7)); } // Monday
+
+  function dayStats(key) {
+    var r = history[key];
+    return r ? { minutes: r.minutes || 0, sessions: r.sessions || 0 } : { minutes: 0, sessions: 0 };
+  }
+
+  function daysBetween(start, endExclusive) {
+    var out = [];
+    for (var d = start; d < endExclusive; d = addDays(d, 1)) out.push(d);
+    return out;
+  }
+
+  // A range is split into buckets (bars): days for week/month, months for year.
+  function buildRange(range, anchor) {
+    var start, end, buckets = [], label;
+    if (range === "week") {
+      start = startOfWeek(anchor);
+      end = addDays(start, 7);
+      var last = addDays(end, -1);
+      label = (start.getMonth() + 1) + "." + start.getDate() + " – " + (last.getMonth() + 1) + "." + last.getDate();
+      if (start.getFullYear() !== new Date().getFullYear()) label = start.getFullYear() + ". " + label;
+      daysBetween(start, end).forEach(function (d) {
+        buckets.push({ start: d, days: [d], axis: WEEKDAY[d.getDay()], title: (d.getMonth() + 1) + "월 " + d.getDate() + "일 (" + WEEKDAY[d.getDay()] + ")" });
+      });
+    } else if (range === "month") {
+      start = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
+      end = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 1);
+      label = start.getFullYear() + "년 " + (start.getMonth() + 1) + "월";
+      daysBetween(start, end).forEach(function (d) {
+        var n = d.getDate();
+        buckets.push({ start: d, days: [d], axis: (n === 1 || n % 5 === 0) ? String(n) : "", title: (d.getMonth() + 1) + "월 " + n + "일 (" + WEEKDAY[d.getDay()] + ")" });
+      });
+    } else {
+      start = new Date(anchor.getFullYear(), 0, 1);
+      end = new Date(anchor.getFullYear() + 1, 0, 1);
+      label = start.getFullYear() + "년";
+      for (var m = 0; m < 12; m++) {
+        var ms = new Date(start.getFullYear(), m, 1);
+        buckets.push({ start: ms, days: daysBetween(ms, new Date(start.getFullYear(), m + 1, 1)), axis: String(m + 1), title: start.getFullYear() + "년 " + (m + 1) + "월" });
+      }
+    }
+    var today = startOfDay(new Date());
+    buckets.forEach(function (b) {
+      var minutes = 0, sessions = 0;
+      b.days.forEach(function (d) { var s = dayStats(dayKeyOf(d)); minutes += s.minutes; sessions += s.sessions; });
+      b.minutes = minutes;
+      b.sessions = sessions;
+      b.future = b.start > today;
+      b.isToday = b.days.length === 1 ? b.start.getTime() === today.getTime()
+        : (today >= b.days[0] && today <= b.days[b.days.length - 1]);
+    });
+    var total = buckets.reduce(function (a, b) { return a + b.minutes; }, 0);
+    var sessions = buckets.reduce(function (a, b) { return a + b.sessions; }, 0);
+    // averages only count days since the app started keeping history,
+    // so a year that began in September isn't diluted by empty months
+    var first = firstRecordDay();
+    var elapsedStart = first && first > start ? first : start;
+    var elapsedEnd = end > today ? addDays(today, 1) : end;
+    var elapsedDays = Math.max(0, Math.round((elapsedEnd - elapsedStart) / 86400000));
+    buckets.forEach(function (b) {
+      var lastDay = b.days[b.days.length - 1];
+      b.counted = !b.future && (!first || lastDay >= first);
+    });
+    return { start: start, end: end, buckets: buckets, label: label, total: total, sessions: sessions, elapsedDays: elapsedDays };
+  }
+
+  function firstRecordDay() {
+    var keys = Object.keys(history).sort();
+    if (!keys.length) return null;
+    var p = keys[0].split("-");
+    return new Date(+p[0], +p[1] - 1, +p[2]);
+  }
+
+  function shiftAnchor(range, anchor, dir) {
+    if (range === "week") return addDays(anchor, 7 * dir);
+    if (range === "month") return new Date(anchor.getFullYear(), anchor.getMonth() + dir, 1);
+    return new Date(anchor.getFullYear() + dir, 0, 1);
+  }
+
+  function entriesIn(start, endExclusive) {
+    var out = [];
+    daysBetween(start, endExclusive).forEach(function (d) {
+      var r = history[dayKeyOf(d)];
+      if (r && Array.isArray(r.entries)) r.entries.forEach(function (e) { out.push(e); });
+    });
+    return out;
+  }
+
+  function currentStreak() {
+    var d = startOfDay(new Date());
+    // today not done yet doesn't break the streak — count from yesterday instead
+    if (!dayStats(dayKeyOf(d)).minutes) d = addDays(d, -1);
+    var n = 0;
+    while (dayStats(dayKeyOf(d)).minutes > 0) { n++; d = addDays(d, -1); }
+    return n;
+  }
+
+  function renderStatsTiles() {
+    var today = dayStats(dayKeyOf(new Date()));
+    var week = buildRange("week", new Date());
+    var allMin = 0, allSessions = 0, activeDays = 0;
+    Object.keys(history).forEach(function (k) {
+      var s = dayStats(k);
+      allMin += s.minutes; allSessions += s.sessions;
+      if (s.minutes > 0) activeDays++;
+    });
+    var streak = currentStreak();
+    var tiles = [
+      ["오늘", fmtDur(today.minutes), today.sessions + "세션"],
+      ["이번 주", week.total >= 6000 ? Math.floor(week.total / 60) + "시간" : fmtDur(week.total), week.sessions + "세션"],
+      ["누적", allMin >= 600 ? Math.floor(allMin / 60) + "시간" : fmtDur(allMin), allSessions + "세션 · " + activeDays + "일"],
+      ["연속 집중", streak + "일", streak ? "끊기지 않게 오늘도!" : "오늘 시작해봐요"]
+    ];
+    statsTiles.innerHTML = "";
+    tiles.forEach(function (t) {
+      var el = document.createElement("div");
+      el.className = "stats-tile";
+      ["stats-tile-label", "stats-tile-value", "stats-tile-sub"].forEach(function (cls, i) {
+        var s = document.createElement("div");
+        s.className = cls;
+        s.textContent = t[i];
+        el.appendChild(s);
+      });
+      statsTiles.appendChild(el);
+    });
+  }
+
+  var RANGE_WORD = { week: "주", month: "달", year: "해" };
+
+  function renderStatsDetail(bucket) {
+    if (!bucket) { statsDetail.hidden = true; return; }
+    statsDetail.hidden = false;
+    statsDetail.innerHTML = "";
+    var head = document.createElement("div");
+    head.className = "stats-detail-head";
+    var a = document.createElement("span");
+    a.textContent = bucket.title;
+    var b = document.createElement("span");
+    b.textContent = fmtDur(bucket.minutes) + " · " + bucket.sessions + "세션";
+    head.appendChild(a); head.appendChild(b);
+    statsDetail.appendChild(head);
+    if (bucket.days.length !== 1) return;
+    var r = history[dayKeyOf(bucket.start)];
+    var entries = r && Array.isArray(r.entries) ? r.entries : [];
+    if (!entries.length) return;
+    var ol = document.createElement("ol");
+    entries.forEach(function (e) {
+      var li = document.createElement("li");
+      var t = document.createElement("span"); t.className = "t"; t.textContent = e.time;
+      var n = document.createElement("span"); n.className = "n";
+      n.textContent = (e.task || "제목 없이 집중") + (e.early ? " · 일찍 끝냄" : "") + (e.skipped ? " · 중단" : "");
+      if (e.progress) n.title = e.progress;
+      var m = document.createElement("span"); m.className = "m"; m.textContent = e.minutes + "분";
+      li.appendChild(t); li.appendChild(n); li.appendChild(m);
+      ol.appendChild(li);
+    });
+    statsDetail.appendChild(ol);
+  }
+
+  function renderStatsChart(data) {
+    statsChart.innerHTML = "";
+    statsAxis.innerHTML = "";
+    var max = data.buckets.reduce(function (a, b) { return Math.max(a, b.minutes); }, 0);
+    var scale = max || 60;
+    if (max > 0) {
+      var maxLabel = document.createElement("span");
+      maxLabel.className = "stats-chart-max";
+      maxLabel.textContent = "최대 " + fmtDur(max);
+      statsChart.appendChild(maxLabel);
+    }
+    var counted = data.buckets.filter(function (b) { return b.counted; });
+    var avg = counted.length ? data.total / counted.length : 0;
+    if (avg > 0) {
+      var line = document.createElement("div");
+      line.className = "stats-chart-avg";
+      line.style.bottom = (avg / scale * 100) + "%";
+      line.title = "평균 " + fmtDur(avg);
+      statsChart.appendChild(line);
+    }
+    data.buckets.forEach(function (b, i) {
+      var bar = document.createElement("button");
+      bar.type = "button";
+      bar.className = "stats-bar" + (b.isToday ? " is-today" : "");
+      bar.disabled = b.future;
+      bar.setAttribute("aria-pressed", statsView.selected === i ? "true" : "false");
+      bar.setAttribute("aria-label", b.title + " " + fmtDur(b.minutes));
+      bar.title = b.title + " · " + fmtDur(b.minutes);
+      var fill = document.createElement("span");
+      fill.className = "stats-bar-fill";
+      fill.style.height = b.minutes ? Math.max(2, b.minutes / scale * 100) + "%" : "0";
+      bar.appendChild(fill);
+      bar.addEventListener("click", function () {
+        statsView.selected = statsView.selected === i ? null : i;
+        renderStatsRange();
+      });
+      statsChart.appendChild(bar);
+
+      var ax = document.createElement("span");
+      ax.textContent = b.axis;
+      if (b.isToday) ax.className = "is-today";
+      statsAxis.appendChild(ax);
+    });
+  }
+
+  function renderStatsTasks(data) {
+    var byTask = {};
+    entriesIn(data.start, data.end).forEach(function (e) {
+      var name = (e.task || "").trim();
+      byTask[name] = (byTask[name] || 0) + (e.minutes || 0);
+    });
+    var rows = Object.keys(byTask).map(function (k) { return { name: k, minutes: byTask[k] }; })
+      .filter(function (r) { return r.minutes > 0; })
+      .sort(function (a, b) { return b.minutes - a.minutes; });
+    var TOP = 5;
+    if (rows.length > TOP + 1) {
+      var rest = rows.slice(TOP).reduce(function (a, r) { return a + r.minutes; }, 0);
+      rows = rows.slice(0, TOP).concat([{ name: null, minutes: rest, other: rows.length - TOP }]);
+    }
+    var total = rows.reduce(function (a, r) { return a + r.minutes; }, 0);
+    var max = rows.length ? rows[0].minutes : 0;
+    statsTasks.innerHTML = "";
+    statsTasksEmpty.hidden = rows.length > 0;
+    rows.forEach(function (r) {
+      var li = document.createElement("li");
+      var top = document.createElement("div");
+      top.className = "stats-task-top";
+      var name = document.createElement("span");
+      name.className = "stats-task-name" + (r.name ? "" : " is-muted");
+      name.textContent = r.name === null ? "기타 " + r.other + "개" : (r.name || "제목 없이 집중");
+      name.title = name.textContent;
+      var val = document.createElement("span");
+      val.className = "stats-task-val";
+      val.textContent = fmtDur(r.minutes) + " · " + Math.round(r.minutes / total * 100) + "%";
+      top.appendChild(name); top.appendChild(val);
+      var track = document.createElement("div");
+      track.className = "stats-task-track";
+      var fill = document.createElement("div");
+      fill.className = "stats-task-fill";
+      fill.style.width = (r.minutes / max * 100) + "%";
+      track.appendChild(fill);
+      li.appendChild(top); li.appendChild(track);
+      statsTasks.appendChild(li);
+    });
+  }
+
+  function hourLabel(h) {
+    var ampm = h < 12 ? "오전" : "오후";
+    var hh = h % 12 === 0 ? 12 : h % 12;
+    return ampm + " " + hh + "시";
+  }
+
+  // Entries only store when a session ended ("HH:MM") and how long it was,
+  // so walk backwards from the end time and spread the minutes over the hours.
+  function renderStatsHours(data) {
+    var hours = [];
+    for (var i = 0; i < 24; i++) hours.push(0);
+    entriesIn(data.start, data.end).forEach(function (e) {
+      var p = String(e.time || "").split(":");
+      if (p.length !== 2) return;
+      var end = (+p[0]) * 60 + (+p[1]);
+      var startMin = Math.max(0, end - (e.minutes || 0));
+      for (var t = startMin; t < end; t++) hours[Math.floor(t / 60) % 24]++;
+    });
+    var max = Math.max.apply(null, hours);
+    var peak = max > 0 ? hours.indexOf(max) : -1;
+    statsHours.innerHTML = "";
+    hours.forEach(function (v, h) {
+      var col = document.createElement("div");
+      col.className = "stats-hour" + (h === peak ? " is-peak" : "");
+      col.style.height = max ? (v / max * 100) + "%" : "0";
+      col.title = h + "시대 · " + fmtDur(v);
+      statsHours.appendChild(col);
+    });
+    statsHoursNote.innerHTML = "";
+    if (peak < 0) {
+      statsHoursNote.textContent = "기록이 쌓이면 가장 집중이 잘 되는 시간대를 알려드려요";
+    } else {
+      statsHoursNote.appendChild(document.createTextNode("이 " + RANGE_WORD[statsView.range] + " 가장 많이 집중한 시간대는 "));
+      var b = document.createElement("b");
+      b.textContent = hourLabel(peak) + "대";
+      statsHoursNote.appendChild(b);
+      statsHoursNote.appendChild(document.createTextNode("예요 (" + fmtDur(max) + ")"));
+    }
+  }
+
+  function renderStatsRange() {
+    var data = buildRange(statsView.range, statsView.anchor);
+    var prev = buildRange(statsView.range, shiftAnchor(statsView.range, statsView.anchor, -1));
+    statsRangeLabel.textContent = data.label;
+    statsNext.disabled = data.end > startOfDay(new Date());
+    statsRangeTotal.textContent = fmtDur(data.total);
+
+    var parts = [data.sessions + "세션"];
+    if (data.elapsedDays > 0) parts.push("하루 평균 " + fmtDur(data.total / data.elapsedDays));
+    statsRangeSub.textContent = parts.join(" · ");
+    var diff = data.total - prev.total;
+    if (prev.total > 0) {
+      var delta = document.createElement("span");
+      delta.className = "stats-delta" + (diff > 0 ? " up" : "");
+      var word = "지난" + RANGE_WORD[statsView.range] + "보다 ";
+      var SAME = { week: "지난주와 같아요", month: "지난달과 같아요", year: "지난해와 같아요" };
+      delta.textContent = " · " + (diff === 0 ? SAME[statsView.range] : word + fmtDur(Math.abs(diff)) + (diff > 0 ? " 더" : " 덜"));
+      statsRangeSub.appendChild(delta);
+    }
+
+    renderStatsChart(data);
+    renderStatsDetail(statsView.selected === null ? null : data.buckets[statsView.selected]);
+    renderStatsTasks(data);
+    renderStatsHours(data);
+  }
+
+  function renderStats() {
+    renderStatsTiles();
+    renderStatsRange();
+  }
+
+  function openStats() {
+    statsReturnFocus = document.activeElement;
+    statsView.anchor = new Date();
+    var data = buildRange(statsView.range, statsView.anchor);
+    // preselect today so the day's sessions are visible right away
+    statsView.selected = null;
+    data.buckets.forEach(function (b, i) { if (b.isToday && b.days.length === 1) statsView.selected = i; });
+    statsOverlay.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    renderStats();
+    statsSheet.focus();
+  }
+
+  function closeStats() {
+    statsOverlay.hidden = true;
+    document.documentElement.style.overflow = "";
+    if (statsReturnFocus && statsReturnFocus.focus) statsReturnFocus.focus();
+  }
+
+  statsToggle.addEventListener("click", openStats);
+  statsClose.addEventListener("click", closeStats);
+  statsOverlay.addEventListener("click", function (e) { if (e.target === statsOverlay) closeStats(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !statsOverlay.hidden) closeStats();
+  });
+  statsSegButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      statsView.range = btn.getAttribute("data-range");
+      statsView.anchor = new Date();
+      statsView.selected = null;
+      statsSegButtons.forEach(function (o) { o.setAttribute("aria-pressed", o === btn ? "true" : "false"); });
+      renderStatsRange();
+    });
+  });
+  statsPrev.addEventListener("click", function () {
+    statsView.anchor = shiftAnchor(statsView.range, statsView.anchor, -1);
+    statsView.selected = null;
+    renderStatsRange();
+  });
+  statsNext.addEventListener("click", function () {
+    statsView.anchor = shiftAnchor(statsView.range, statsView.anchor, 1);
+    statsView.selected = null;
+    renderStatsRange();
+  });
 
   // ---------- State machine ----------
   var PHASE_LABEL = { focus: "집중", short: "짧은 휴식", long: "긴 휴식" };
@@ -1993,6 +2891,7 @@
     playBell();
     var wasFocus = state.phase === "focus";
     if (wasFocus) {
+      ensureLogIsToday();
       log.sessions += 1;
       log.minutes += settings.focusMin;
       log.date = todayKey();
@@ -2026,6 +2925,7 @@
     pause();
     playBell();
     var elapsedMin = Math.max(1, Math.round((state.total - state.remaining) / 60));
+    ensureLogIsToday();
     log.sessions += 1;
     log.minutes += elapsedMin;
     log.date = todayKey();
@@ -2060,6 +2960,7 @@
     if (state.phase === "focus") {
       var elapsedMin = Math.round((state.total - state.remaining) / 60);
       if (elapsedMin >= 1) {
+        ensureLogIsToday();
         log.minutes += elapsedMin;
         log.date = todayKey();
         if (!Array.isArray(log.entries)) log.entries = [];
