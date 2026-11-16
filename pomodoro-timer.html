@@ -1275,6 +1275,19 @@
     .stats-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .stats-nav-label { min-width: 104px; }
   }
+  /* small windows (menu bar popover / tray widget): keep the chart in view */
+  @media (max-height: 760px) {
+    .stats-sheet { gap: 10px; padding-top: 16px; }
+    .stats-head h2 { font-size: 18px; }
+    .stats-tiles { gap: 8px; }
+    .stats-tile { padding: 9px 11px 10px; border-radius: 14px; }
+    .stats-tile-value { margin-top: 3px; font-size: 16px; }
+    .stats-tile-sub { margin-top: 1px; font-size: 11px; }
+    .stats-card { padding: 13px 14px 15px; border-radius: 16px; }
+    .stats-toolbar { margin-bottom: 10px; }
+    .stats-summary-value { font-size: 20px; }
+    .stats-chart { height: 120px; margin-top: 22px; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
@@ -2350,12 +2363,25 @@
     var parts = [data.sessions + "세션"];
     if (data.elapsedDays > 0) parts.push("하루 평균 " + fmtDur(data.total / data.elapsedDays));
     statsRangeSub.textContent = parts.join(" · ");
-    var diff = data.total - prev.total;
-    if (prev.total > 0) {
+    // While the current period is still running, compare against the same
+    // number of days at the start of the previous one (Mon vs last Mon,
+    // Nov 1–16 vs Oct 1–16) instead of a whole finished period.
+    var prevTotal = prev.total;
+    var running = data.end > startOfDay(new Date());
+    if (running) {
+      var elapsed = Math.round((addDays(startOfDay(new Date()), 1) - data.start) / 86400000);
+      var prevEnd = addDays(prev.start, elapsed);
+      if (prevEnd > prev.end) prevEnd = prev.end;
+      prevTotal = daysBetween(prev.start, prevEnd).reduce(function (a, d) { return a + dayStats(dayKeyOf(d)).minutes; }, 0);
+    }
+    var diff = data.total - prevTotal;
+    if (prevTotal > 0) {
       var delta = document.createElement("span");
       delta.className = "stats-delta" + (diff > 0 ? " up" : "");
-      var word = "지난" + RANGE_WORD[statsView.range] + "보다 ";
-      var SAME = { week: "지난주와 같아요", month: "지난달과 같아요", year: "지난해와 같아요" };
+      var word = "지난" + RANGE_WORD[statsView.range] + (running ? " 같은 기간보다 " : "보다 ");
+      var SAME = running
+        ? { week: "지난주 같은 기간과 같아요", month: "지난달 같은 기간과 같아요", year: "지난해 같은 기간과 같아요" }
+        : { week: "지난주와 같아요", month: "지난달과 같아요", year: "지난해와 같아요" };
       delta.textContent = " · " + (diff === 0 ? SAME[statsView.range] : word + fmtDur(Math.abs(diff)) + (diff > 0 ? " 더" : " 덜"));
       statsRangeSub.appendChild(delta);
     }
