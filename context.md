@@ -1,6 +1,12 @@
 # PINKMODORO — Context
 
-Live: https://gawonm.github.io/pinkmodoro/ (GitHub Pages, deployed from this repo's `index.html` / `pomodoro-timer.html` / `sw.js` / `manifest.json`)
+Live: https://pinkmodoro.vercel.app/ (Vercel, primary — canonical / og:url point here)
+Old: https://gawonm.github.io/pinkmodoro/ (GitHub Pages, still deployed from the same files: `index.html` / `pomodoro-timer.html` / `sw.js` / `manifest.json`)
+
+Both addresses serve the same `index.html`. localStorage is per-origin, so the old address shows a
+"we moved" banner that hands its records to the new address via postMessage (see "Moving to the new
+address" in `index.html`). The macOS/Windows widgets still load the old address on purpose so their
+existing records stay; the banner is hidden inside the widgets.
 
 ## Gotcha: recording demos of the live site with Claude-in-Chrome
 
@@ -12,7 +18,7 @@ checklist, quick-start, session log, etc.) will write test/dummy entries directl
 into that real `localStorage`.
 
 **Practice:** after every Claude-in-Chrome recording/testing session against the
-live site, clear `localStorage` on https://gawonm.github.io/pinkmodoro/ before
+live site, clear `localStorage` on the address you tested (https://pinkmodoro.vercel.app/ or the old https://gawonm.github.io/pinkmodoro/) before
 ending the session, so dummy demo data doesn't get mixed into the user's real
 usage history. Do this via the same real browser (Claude-in-Chrome), not the
 sandboxed Browser pane.

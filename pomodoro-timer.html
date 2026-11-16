@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<title>핑크모도로</title>
+<title>핑크모도로 · 눈에 보이는 뽀모도로 타이머</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="남은 시간이 파이 모양으로 줄어드는 게 눈에 보이는 뽀모도로 타이머. 5분만 가볍게 시작하기, 떠오른 생각 메모, 집중 통계까지. 가입 없이 브라우저에서 바로 쓰고, 기록은 내 기기에만 저장돼요.">
+<link rel="canonical" href="https://pinkmodoro.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="핑크모도로">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pinkmodoro.vercel.app/">
+<meta property="og:title" content="핑크모도로 · 눈에 보이는 뽀모도로 타이머">
+<meta property="og:description" content="남은 시간이 줄어드는 게 눈에 보이는 타이머. 5분만 가볍게 시작하고, 집중 통계로 기록을 돌아봐요. 가입 없이 바로.">
+<meta property="og:image" content="https://pinkmodoro.vercel.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="핑크모도로 타이머 화면: 분홍색 파이가 남은 시간만큼 줄어드는 다이얼">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="핑크모도로 · 눈에 보이는 뽀모도로 타이머">
+<meta name="twitter:description" content="남은 시간이 줄어드는 게 눈에 보이는 타이머. 5분만 가볍게 시작하고, 집중 통계로 기록을 돌아봐요.">
+<meta name="twitter:image" content="https://pinkmodoro.vercel.app/assets/og-image.png">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -622,6 +639,7 @@
     transition: transform 0.12s ease;
   }
   .btn:active { transform: scale(0.97); }
+  .btn { white-space: nowrap; }
 
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), var(--accent-strong));
@@ -636,6 +654,15 @@
     color: var(--ink-soft);
   }
   .btn-ghost:hover { border-color: var(--line-strong); color: var(--ink); }
+  @media (max-width: 420px) {
+    .controls { gap: 8px; }
+    .btn { padding: 12px 14px; }
+    .btn-primary { min-width: 108px; }
+  }
+  @media (max-width: 360px) {
+    .btn { padding: 12px 10px; font-size: 14px; }
+    .btn-primary { min-width: 96px; }
+  }
 
   .btn:focus-visible, .icon-btn:focus-visible, input:focus-visible,
   .stepper button:focus-visible, .switch input:focus-visible + .switch-track,
@@ -1289,6 +1316,38 @@
     .stats-chart { height: 120px; margin-top: 22px; }
   }
 
+  /* ---------- Old address: "we moved" banner ---------- */
+  .move-banner {
+    position: relative;
+    z-index: 2;
+    max-width: 960px;
+    margin: -16px auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    background: var(--c-focus-tint);
+    border: 1px solid var(--line);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: center;
+  }
+  .move-banner-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 6px 14px;
+    background: var(--c-focus-strong);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
@@ -1504,6 +1563,7 @@
         <p class="session-log-empty" id="sessionLogEmpty">아직 완료한 세션이 없어요</p>
       </div>
 
+      <button class="link-btn" id="importOldBtn" type="button" hidden>예전 주소(github.io)에서 쓰던 기록 가져오기</button>
       <button class="link-btn" id="resetSettingsBtn" type="button">기본값으로 초기화</button>
     </aside>
   </main>
@@ -3197,6 +3257,166 @@
       var savedTask = storage.getItem("pomodoro_v1_task");
       if (savedTask) taskInput.value = savedTask;
     } catch (e) {}
+  }
+
+  // ---------- Moving to the new address ----------
+  // The app moved from GitHub Pages to Vercel. Browser storage is tied to
+  // the site's address, so records saved on the old address aren't visible
+  // on the new one. The old page hands its storage to the new page through
+  // a window it opens (or that opens it) with postMessage, origin-checked
+  // on both sides. Both addresses serve this same file.
+  var NEW_ORIGIN = "https://pinkmodoro.vercel.app";
+  var NEW_URL = NEW_ORIGIN + "/";
+  var OLD_ORIGIN = "https://gawonm.github.io";
+  var OLD_URL = OLD_ORIGIN + "/pinkmodoro/";
+  var STORAGE_MIGRATED = "pomodoro_v1_migrated";
+  var MIGRATE_MSG = "pinkmodoro-migrate";
+  var MIGRATE_READY = "pinkmodoro-migrate-ready";
+  var MIGRATE_KEYS = [STORAGE_SETTINGS, STORAGE_LOG, STORAGE_THEME, STORAGE_NOTES, STORAGE_CHECKLIST, STORAGE_HISTORY];
+
+  // the macOS / Windows widgets embed the page; they can't open popups
+  var isWidget = !!((window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.pinkmodoroNative) ||
+    (window.chrome && window.chrome.webview));
+  var onOldSite = location.origin === OLD_ORIGIN;
+  var onNewSite = location.origin === NEW_ORIGIN;
+  var migrateParam = "";
+  try { migrateParam = new URLSearchParams(location.search).get("migrate") || ""; } catch (e) {}
+
+  function collectStorage() {
+    var out = {};
+    if (!storage) return out;
+    MIGRATE_KEYS.forEach(function (k) {
+      var v = storage.getItem(k);
+      if (v !== null) out[k] = v;
+    });
+    return out;
+  }
+
+  function parseJSON(raw, fallback) {
+    try { var v = JSON.parse(raw); return v === null || v === undefined ? fallback : v; } catch (e) { return fallback; }
+  }
+
+  // Merge rather than overwrite: if both addresses were used, keep the
+  // bigger day from each side, and only fill settings/notes/checklist
+  // that the new address doesn't have yet.
+  function importStorage(data) {
+    if (!storage || !data || typeof data !== "object") return false;
+    var hist = parseJSON(storage.getItem(STORAGE_HISTORY), {});
+    var incomingHist = parseJSON(data[STORAGE_HISTORY], {});
+    function takeDay(key, rec) {
+      if (!key || !rec) return;
+      if (!hist[key] || (rec.minutes || 0) > (hist[key].minutes || 0)) hist[key] = rec;
+    }
+    Object.keys(incomingHist).forEach(function (k) { takeDay(normalizeDayKey(k), incomingHist[k]); });
+
+    var oldLog = parseJSON(data[STORAGE_LOG], null);
+    if (oldLog && oldLog.date) {
+      var curLog = parseJSON(storage.getItem(STORAGE_LOG), null);
+      if (oldLog.date === todayKey()) {
+        if (!curLog || curLog.date !== todayKey() || (oldLog.minutes || 0) > (curLog.minutes || 0)) {
+          storage.setItem(STORAGE_LOG, data[STORAGE_LOG]);
+        }
+      }
+      var k = normalizeDayKey(oldLog.date);
+      if (k && ((oldLog.minutes || 0) > 0 || oldLog.sessions)) {
+        takeDay(k, {
+          sessions: oldLog.sessions || 0,
+          minutes: oldLog.minutes || 0,
+          entries: (oldLog.entries || []).map(function (e) {
+            var o = { time: e.time || "", task: e.task || "", minutes: e.minutes || 0 };
+            if (e.early) o.early = true;
+            if (e.skipped) o.skipped = true;
+            if (e.progress) o.progress = e.progress;
+            return o;
+          })
+        });
+      }
+    }
+    storage.setItem(STORAGE_HISTORY, JSON.stringify(hist));
+
+    [STORAGE_SETTINGS, STORAGE_THEME].forEach(function (key) {
+      if (data[key] !== undefined && storage.getItem(key) === null) storage.setItem(key, data[key]);
+    });
+    if (data[STORAGE_NOTES] !== undefined) {
+      var curNotes = parseJSON(storage.getItem(STORAGE_NOTES), []);
+      if (!Array.isArray(curNotes) || !curNotes.length) storage.setItem(STORAGE_NOTES, data[STORAGE_NOTES]);
+    }
+    if (data[STORAGE_CHECKLIST] !== undefined) {
+      var curList = parseJSON(storage.getItem(STORAGE_CHECKLIST), null);
+      if (!curList || !Array.isArray(curList.items) || !curList.items.length) storage.setItem(STORAGE_CHECKLIST, data[STORAGE_CHECKLIST]);
+    }
+    storage.setItem(STORAGE_MIGRATED, String(Date.now()));
+    return true;
+  }
+
+  function listenForImport() {
+    function onMessage(e) {
+      if (e.origin !== OLD_ORIGIN || !e.data || e.data.type !== MIGRATE_MSG) return;
+      window.removeEventListener("message", onMessage);
+      if (importStorage(e.data.data)) {
+        try { sessionStorage.setItem("pinkmodoro_migrated_toast", "1"); } catch (err) {}
+        location.replace(NEW_URL);
+      }
+    }
+    window.addEventListener("message", onMessage);
+  }
+
+  if (onNewSite) {
+    try {
+      if (sessionStorage.getItem("pinkmodoro_migrated_toast")) {
+        sessionStorage.removeItem("pinkmodoro_migrated_toast");
+        setTimeout(function () { showGoalToast("예전 주소의 기록을 가져왔어요"); }, 400);
+      }
+    } catch (e) {}
+
+    // opened by the banner on the old site: say we're ready, then receive
+    if (migrateParam === "receive" && window.opener) {
+      listenForImport();
+      try { window.opener.postMessage({ type: MIGRATE_READY }, OLD_ORIGIN); } catch (e) {}
+    }
+
+    // settings link: open the old site, which sends its records back
+    var importBtn = document.getElementById("importOldBtn");
+    if (importBtn && !isWidget && !(storage && storage.getItem(STORAGE_MIGRATED))) {
+      importBtn.hidden = false;
+      importBtn.addEventListener("click", function () {
+        listenForImport();
+        window.open(OLD_URL + "?migrate=send", "pinkmodoro-old");
+      });
+    }
+  }
+
+  if (onOldSite && !isWidget) {
+    if (migrateParam === "send" && window.opener) {
+      try { window.opener.postMessage({ type: MIGRATE_MSG, data: collectStorage() }, NEW_ORIGIN); } catch (e) {}
+      showGoalToast("기록을 새 주소로 보냈어요. 이 창은 닫아도 돼요");
+      setTimeout(function () { window.close(); }, 1200);
+    } else {
+      var banner = document.createElement("div");
+      banner.className = "move-banner";
+      var text = document.createElement("span");
+      text.textContent = "핑크모도로가 새 주소로 이사했어요: pinkmodoro.vercel.app";
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "move-banner-btn";
+      btn.textContent = "기록 들고 이사하기";
+      btn.addEventListener("click", function () {
+        var payload = collectStorage();
+        function onReady(e) {
+          if (e.origin !== NEW_ORIGIN || !e.data || e.data.type !== MIGRATE_READY) return;
+          window.removeEventListener("message", onReady);
+          e.source.postMessage({ type: MIGRATE_MSG, data: payload }, NEW_ORIGIN);
+          text.textContent = "기록을 보냈어요. 이제 새 주소에서 쓰시면 돼요!";
+          btn.hidden = true;
+        }
+        window.addEventListener("message", onReady);
+        var w = window.open(NEW_URL + "?migrate=receive", "pinkmodoro-new");
+        if (!w) location.href = NEW_URL; // popup blocked: at least get them there
+      });
+      banner.appendChild(text);
+      banner.appendChild(btn);
+      document.body.insertBefore(banner, document.body.firstChild);
+    }
   }
 
   // ---------- PWA: install as an app, works offline once cached ----------
