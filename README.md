@@ -1,8 +1,31 @@
 # PINKMODORO
 
-Rose Quartz/Serenity 색상의 뽀모도로 타이머. Time Timer 스타일 파이가 남은 시간만큼 줄어드는 모양으로, 숫자보다 시간의 흐름을 눈으로 보기 쉽게 만들었습니다.
+**남은 시간이 줄어드는 게 눈에 보이는 뽀모도로 타이머.**
+숫자를 읽지 않아도, 분홍색 파이가 줄어드는 모양만 보고 시간이 얼마나 남았는지 알 수 있어요.
 
-**바로 써보기**: https://gawonm.github.io/pinkmodoro/
+### 👉 [바로 써보기: gawonm.github.io/pinkmodoro](https://gawonm.github.io/pinkmodoro/)
+
+가입이나 설치 없이 브라우저에서 바로 쓸 수 있어요. 기록은 서버로 보내지 않고 내 기기(브라우저)에만 저장돼요.
+
+![핑크모도로 타이머 화면](assets/screenshot-main-light.png)
+
+<table>
+  <tr>
+    <td width="62%"><img src="assets/screenshot-stats-light.png" alt="집중 통계 화면: 주간 막대 차트와 요약 카드"></td>
+    <td width="38%"><img src="assets/screenshot-mobile-light.png" alt="휴대폰 화면"></td>
+  </tr>
+  <tr>
+    <td align="center">집중 통계</td>
+    <td align="center">휴대폰에서도</td>
+  </tr>
+</table>
+
+## 이런 분께 맞아요
+
+- 시작하는 것 자체가 어려운 분: **"5분만 가볍게 시작하기"** 버튼으로 부담 없이 시작해요
+- 집중하다가 딴생각이 자꾸 떠오르는 분: **떠오른 생각 메모**에 잠깐 적어두고 다시 집중해요
+- 할 일을 일찍 끝냈는데 타이머 때문에 기다리기 싫은 분: **"할 일을 다 했어요"** 로 그 자리에서 끝내도 기록돼요
+- 내가 언제 무엇에 얼마나 집중했는지 궁금한 분: **집중 통계**로 주·월·년 단위 기록을 돌아봐요
 
 ## 기능
 
@@ -51,6 +74,7 @@ Xcode GUI로 하고 싶다면 `macos-widget/README.md`의 "B. Xcode로 실행하
 ```
 index.html / pomodoro-timer.html   웹앱 본체 (둘은 항상 동일하게 유지)
 manifest.json, sw.js               PWA 매니페스트 / 서비스 워커
+assets/                            링크 미리보기 이미지(og-image.png), README 스크린샷
 macos-widget/                      macOS 메뉴바 위젯 소스 (Swift)
 windows-widget/                    Windows 트레이 위젯 소스 (C# / WPF)
 ```

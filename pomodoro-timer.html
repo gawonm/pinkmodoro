@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<title>핑크모도로</title>
+<title>핑크모도로 · 눈에 보이는 뽀모도로 타이머</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="남은 시간이 파이 모양으로 줄어드는 게 눈에 보이는 뽀모도로 타이머. 5분만 가볍게 시작하기, 떠오른 생각 메모, 집중 통계까지. 가입 없이 브라우저에서 바로 쓰고, 기록은 내 기기에만 저장돼요.">
+<link rel="canonical" href="https://gawonm.github.io/pinkmodoro/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="핑크모도로">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://gawonm.github.io/pinkmodoro/">
+<meta property="og:title" content="핑크모도로 · 눈에 보이는 뽀모도로 타이머">
+<meta property="og:description" content="남은 시간이 줄어드는 게 눈에 보이는 타이머. 5분만 가볍게 시작하고, 집중 통계로 기록을 돌아봐요. 가입 없이 바로.">
+<meta property="og:image" content="https://gawonm.github.io/pinkmodoro/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="핑크모도로 타이머 화면: 분홍색 파이가 남은 시간만큼 줄어드는 다이얼">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="핑크모도로 · 눈에 보이는 뽀모도로 타이머">
+<meta name="twitter:description" content="남은 시간이 줄어드는 게 눈에 보이는 타이머. 5분만 가볍게 시작하고, 집중 통계로 기록을 돌아봐요.">
+<meta name="twitter:image" content="https://gawonm.github.io/pinkmodoro/assets/og-image.png">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -622,6 +639,7 @@
     transition: transform 0.12s ease;
   }
   .btn:active { transform: scale(0.97); }
+  .btn { white-space: nowrap; }
 
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), var(--accent-strong));
@@ -636,6 +654,15 @@
     color: var(--ink-soft);
   }
   .btn-ghost:hover { border-color: var(--line-strong); color: var(--ink); }
+  @media (max-width: 420px) {
+    .controls { gap: 8px; }
+    .btn { padding: 12px 14px; }
+    .btn-primary { min-width: 108px; }
+  }
+  @media (max-width: 360px) {
+    .btn { padding: 12px 10px; font-size: 14px; }
+    .btn-primary { min-width: 96px; }
+  }
 
   .btn:focus-visible, .icon-btn:focus-visible, input:focus-visible,
   .stepper button:focus-visible, .switch input:focus-visible + .switch-track,
